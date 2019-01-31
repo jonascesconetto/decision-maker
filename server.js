@@ -40,17 +40,7 @@ app.use('/api/users', usersRoutes(knex));
 
 // Landing Page
 app.get('/', (req, res) => {
-  let templateVars = {};
-  knex
-    .select('*')
-    .from('candidates')
-    .where('polls_id', 1)
-    .then((results) => {
-      templateVars['candidates'] = results;
-      console.log(results);
-    })
-    .then(() => console.log(templateVars))
-    .then(() => res.render('vote', templateVars));
+  res.render('index');
 });
 
 // Writes poll data to polls db when a user creates a poll
