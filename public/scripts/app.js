@@ -5,6 +5,7 @@ $(() => {
   update: function(event, ui) {
     var order =   $(this).sortable('toArray');
     orderArray = order;
+    console.log(orderArray);
     }
   });
   $( "#sortable" ).disableSelection();
