@@ -1,5 +1,7 @@
 // USE FOR ON PAGE EVENTS ONLY
 $(() => {
+  $( "#sortable" ).sortable();
+  $( "#sortable" ).disableSelection();
   // $.ajax({
   //   method: 'GET',
   //   url: '/api/users'
