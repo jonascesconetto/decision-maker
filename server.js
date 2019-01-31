@@ -38,9 +38,26 @@ app.use(express.static('public'));
 // Mount all resource routes
 app.use('/api/users', usersRoutes(knex));
 
-// Home page
+// Landing Page
 app.get('/', (req, res) => {
-  res.render('index');
+  let templateVars = {};
+  knex
+    .select('*')
+    .from('users')
+    .where('id', 2)
+    .then((results) => {
+      results.forEach((result) => {
+        templateVars['users'] = result;
+      });
+    })
+    .then(() => console.log(templateVars))
+    .then(() => res.render('test', templateVars));
+});
+
+// Writes poll data to polls db when a user creates a poll
+app.post('/polls', (req, res) => {
+  //write poll creation data to
+  res.redirect('mail/:creator_email');
 });
 
 app.listen(PORT, () => {
