@@ -13,6 +13,7 @@ const knexConfig  = require('./knexfile');
 const knex        = require('knex')(knexConfig[ENV]);
 const morgan      = require('morgan');
 const knexLogger  = require('knex-logger');
+const chance = require('chance').Chance();
 
 // Seperated Routes for each Resource
 const usersRoutes = require('./routes/users');
@@ -40,23 +41,16 @@ app.use('/api/users', usersRoutes(knex));
 
 // Landing Page
 app.get('/', (req, res) => {
-  let templateVars = {};
-  knex
-    .select('*')
-    .from('candidates')
-    .where('polls_id', 1)
-    .then((results) => {
-      templateVars['candidates'] = results;
-      console.log(results);
-    })
-    .then(() => console.log(templateVars))
-    .then(() => res.render('vote', templateVars));
+  res.render('index');
 });
 
 // Writes poll data to polls db when a user creates a poll
 app.post('/polls', (req, res) => {
-  // Write poll creation data to
-  res.redirect('mail/:admin_email'); // Admin_email is a column in the polls table and will be in the body of the post request.
+  // Write poll creation data to DB
+  console.log(req.body);
+  const randUrl = chance.hash({ length: 20 });
+  console.log(randUrl);
+  res.redirect('/'); // Admin_email is a column in the polls table and will be in the body of the post request.
 });
 
 // Sends email using mailgun API to the admin with the poll link and admin page link for the poll
@@ -85,7 +79,9 @@ app.get('/polls/vote', (req, res) => {
 app.post('/polls/:v_url', (req, res) => {
   // Run borda function to add points to candidates and write to database.
   // Update voters DB with name of voter.
-  res.redirect('/polls/:v_url/result');
+  console.log(req.body);
+  // res.redirect('/polls/:v_url/result');
+  res.redirect('/polls/vote');
 });
 
 // Vote page that displays results to date of the poll
@@ -103,3 +99,5 @@ app.get('/polls/:v_url/result', (req, res) => {
 app.listen(PORT, () => {
   console.log('Example app listening on port ' + PORT);
 });
+
+
