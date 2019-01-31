@@ -1,10 +1,8 @@
 
 exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
-  return knex('candidates').del()
-    .then(knex('voters').del())
-    .then(knex('polls').del())
-  .then(function () {
+  return knex.raw('TRUNCATE TABLE polls, candidates, voters CASCADE')
+    .then(function () {
       return Promise.all([
         // Inserts seed entries
         knex('polls').insert({id: 1, admin_email: 'sumedhanarayanan@gmail.com', title: 'Lunch Suggestions', admin_url:'abcdef', vote_url:'uvwxyz'}),
