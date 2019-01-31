@@ -43,26 +43,61 @@ app.get('/', (req, res) => {
   let templateVars = {};
   knex
     .select('*')
-    .from('users')
-    .where('id', 2)
+    .from('candidates')
+    .where('polls_id', 1)
     .then((results) => {
-      results.forEach((result) => {
-        templateVars['users'] = result;
-      });
+      templateVars['candidates'] = results;
+      console.log(results);
     })
     .then(() => console.log(templateVars))
-    .then(() => res.render('test', templateVars));
+    .then(() => res.render('vote', templateVars));
 });
 
 // Writes poll data to polls db when a user creates a poll
 app.post('/polls', (req, res) => {
-  //write poll creation data to
-  res.redirect('mail/:creator_email');
+  // Write poll creation data to
+  res.redirect('mail/:admin_email'); // Admin_email is a column in the polls table and will be in the body of the post request.
 });
 
-// Vote page
-app.get('/vote', (req, res) => {
-  res.render('vote');
+// Sends email using mailgun API to the admin with the poll link and admin page link for the poll
+app.post('mail/:admin_email', (req, res) => {
+  // Mailgun API does its work
+  res.redirect('/polls/:v_url');
+});
+
+// Vote page that displays options to vote for
+app.get('/polls/vote', (req, res) => {
+  // Pull data from DB specific to poll as per the params in the get request and render the page.
+  let templateVars = {};
+  knex
+    .select('*')
+    .from('candidates')
+    .where('polls_id', 1)
+    .then((results) => {
+      templateVars['candidates'] = results;
+      console.log(results);
+    })
+    .then(() => console.log(templateVars))
+    .then(() => res.render('vote', templateVars));
+});
+
+// Calculates the points for each candidate & updates DB.
+app.post('/polls/:v_url', (req, res) => {
+  // Run borda function to add points to candidates and write to database.
+  // Update voters DB with name of voter.
+  res.redirect('/polls/:v_url/result');
+});
+
+// Vote page that displays results to date of the poll
+app.get('/polls/:v_url/result', (req, res) => {
+  // Pass database details to templateVars for current poll based on params.
+  res.render('results');
+});
+
+// Renders the admin page based on the admin link being clicked.
+app.get('/polls/:v_url/result', (req, res) => {
+  // Admin page with results, voters' name
+  res.render('results');
 });
 
 app.listen(PORT, () => {
