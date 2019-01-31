@@ -66,7 +66,7 @@ app.get('/polls/vote', (req, res) => {
   knex
     .select('*')
     .from('candidates')
-    .where('polls_id', 3)
+    .where('polls_id', 2)
     .then((results) => {
       templateVars['candidates'] = results;
       console.log(results);
