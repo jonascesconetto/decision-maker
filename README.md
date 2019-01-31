@@ -62,17 +62,17 @@
  - send email using mailgun API to the admin with the poll link and admin page link for the poll
  Res -> Redirect to /polls/:v_url 
 
- ## GET /polls/:v_url
+## GET /polls/:v_url
  - display all the options to vote
- RES -> Render votes.html 
+ RES -> Render vote.html 
 
- ## POST /polls/:v_url
+## POST /polls/:v_url
  - Calculates the points for each candidate using borda count
  - updates DB points for candidates
  - updates voter DB with name of voter
   Res - > Redirect /polls/:v_url/result
 
- ## GET /polls/:v_url/result
+## GET /polls/:v_url/result
  - displays the results of the votes so far
   Res - > render results.ejs
 

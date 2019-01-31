@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "local": "./node_modules/.bin/nodemon --ignore public/",
+    "local": "./node_modules/.bin/nodemon -L --ignore public/",
     "knex": "./node_modules/.bin/knex"
   },
   "author": "Lighthouse Labs",
@@ -16,6 +16,7 @@
     "dotenv": "^2.0.0",
     "ejs": "^2.4.1",
     "express": "^4.13.4",
+    "jquery-ui-dist": "^1.12.1",
     "knex": "^0.11.7",
     "knex-logger": "^0.1.0",
     "morgan": "^1.7.0",
