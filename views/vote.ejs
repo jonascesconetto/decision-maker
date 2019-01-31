@@ -26,12 +26,14 @@
     <ul id="sortable">
       <% for(let item in candidates) { %>
       <% let candidate = candidates[item]; %>
-      <li id=<%= candidate['id'] %>>
-        <span class="candidateName"><%= candidate['candidate'] %></span>
-        <span class="candidateDesc"><%= candidate['description'] %></span>
-      </li>
+      <div class="row" id=<%= candidate['id'] %>>
+        <li class="col-lg-6">
+          <h3 class="candidateName"><%= candidate['candidate'] %></h3>
+          <span class="candidateDesc"><%= candidate['description'] %></span>
+        </li>
+      </div>
       <% } %>
-    </ul>
+    </ul>x
     <button id="voteSubmit">Submit</button>
   </div><!-- /.container -->
 
