@@ -53,7 +53,6 @@ const votes = [
   {id: 29, polls_id: 3, candidates_id: 13, username:'ryan', rating: 1},
 ]
 
-
 exports.seed = function(knex, Promise) {
   /* Helper function to seed tables, defined inside of the seed function
      to get access to 'knex'. Closure. */
