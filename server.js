@@ -60,6 +60,11 @@ app.post('/polls', (req, res) => {
   res.redirect('mail/:creator_email');
 });
 
+// Vote page
+app.get('/vote', (req, res) => {
+  res.render('vote');
+});
+
 app.listen(PORT, () => {
   console.log('Example app listening on port ' + PORT);
 });
