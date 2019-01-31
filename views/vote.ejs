@@ -27,7 +27,7 @@
       <% for(let item in candidates) { %>
       <% let candidate = candidates[item]; %>
       <li id=<%= candidate['id'] %>>
-        <span class="candidateName"><%= candidate['candidate'] %></span>
+        <h3 class="candidateName"><%= candidate['candidate'] %></h3>
         <span class="candidateDesc"><%= candidate['description'] %></span>
       </li>
       <% } %>
