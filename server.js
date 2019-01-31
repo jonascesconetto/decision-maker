@@ -81,7 +81,7 @@ app.post('/polls/:v_url', (req, res) => {
   // Update voters DB with name of voter.
   console.log(req.body);
   // res.redirect('/polls/:v_url/result');
-  res.redirect('/polls/vote')
+  res.redirect('/polls/vote');
 });
 
 // Vote page that displays results to date of the poll
