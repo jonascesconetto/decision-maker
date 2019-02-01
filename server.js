@@ -61,8 +61,23 @@ app.post('mail/:admin_email', (req, res) => {
 });
 
 // Vote page that displays options to vote for
-app.get('/polls/vote', (req, res) => {
+app.get('/polls/:v_url', (req, res) => {
   // Pull data from DB specific to poll as per the params in the get request and render the page.
+
+  function verified (url) {
+    knex('polls')
+      .where('vote_url', url)
+      .then((results) => {
+        if (results.length === 0) {
+          console.log('not found');
+        } else {
+          console.log('hi');
+        }
+      });
+  }
+
+  verified(req.params.v_url);
+  // if (req.params.id)
   let templateVars = {};
   knex
     .select('*')
@@ -71,7 +86,6 @@ app.get('/polls/vote', (req, res) => {
     .then((results) => {
       templateVars.candidates = results;
     })
-
     .then(() => res.render('vote', templateVars));
 });
 
