@@ -51,32 +51,29 @@ app.post('/polls', (req, res) => {
   // console.log(req.body);
   const randUrl = chance.hash({ length: 20 });
   console.log(randUrl);
-  res.redirect('/'); // Admin_email is a column in the polls table and will be in the body of the post request.
+  res.redirect('/polls/:v_url'); // This :v_url will be a variable pulled from the polls table.
 });
 
-// Sends email using mailgun API to the admin with the poll link and admin page link for the poll
-app.post('mail/:admin_email', (req, res) => {
-  // Mailgun API does its work
-  res.redirect('/polls/:v_url');
-});
 
 // Vote page that displays options to vote for
 app.get('/polls/:v_url', (req, res) => {
   // Pull data from DB specific to poll as per the params in the get request and render the page.
 
   function verified (url) {
-    knex('polls')
+    return knex('polls')
       .where('vote_url', url)
       .then((results) => {
         if (results.length === 0) {
           console.log('not found');
         } else {
           console.log('hi');
+          return results[0]['vote_url'];
         }
       });
   }
 
-  verified(req.params.v_url);
+  verified(req.params.v_url)
+    .then((result) => { console.log('result', result); });
   // if (req.params.id)
   let templateVars = {};
   knex
@@ -90,10 +87,10 @@ app.get('/polls/:v_url', (req, res) => {
 });
 
 // Calculates the points for each candidate & updates DB.
-app.post('/polls/vote', (req, res) => {
+app.post('/polls/:v_url', (req, res) => {
   const vote = req.body.orderArray;
   knex('candidates')
-    .where('polls_id', 2)
+    .where('polls_id', 2) //make the 2 dynamic
     .then((results) => {
       borda(vote);
       res.send({ result: true });
@@ -101,13 +98,13 @@ app.post('/polls/vote', (req, res) => {
 });
 
 // Vote page that displays results to date of the poll
-app.get('/polls/vote/result', (req, res) => {
+app.get('/polls/:v-url/result', (req, res) => {
   let templateVars = {};
   knex
     .select('*')
     .from('candidates')
     .leftJoin('polls', 'polls.id', 'candidates.polls_id')
-    .where('polls_id', 2)
+    .where('polls_id', 2) //make the 2 dynamic
     .orderBy('points', 'desc')
     .then((results) => {
       templateVars.candidates = results;
@@ -118,9 +115,9 @@ app.get('/polls/vote/result', (req, res) => {
 });
 
 // Renders the admin page based on the admin link being clicked.
-app.get('/polls/:v_url/result', (req, res) => {
+app.get('/polls/:admin_url', (req, res) => {
   // Admin page with results, voters' name
-  res.render('results');
+  res.render('admin');
 });
 
 app.listen(PORT, () => {
