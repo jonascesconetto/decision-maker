@@ -1,5 +1,6 @@
 body {
   background-color: #111;
+  padding-bottom: 30px;
 
   h1 {
   color: #244751;
@@ -28,6 +29,15 @@ body {
   span {
     margin: 0;
     padding-top: 10px;
+  }
+}
+
+.adminStats {
+  margin-top: 20px;
+
+  td {
+    padding-right: 10px;
+    padding-bottom: 10px;
   }
 }
 

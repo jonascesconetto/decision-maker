@@ -21,7 +21,7 @@
     </div>
     <div class="row">
       <h3><%= voters.length %> voters so far:</h3>
-      <table>
+      <table class="adminStats">
         <% for (let voter in voters) { %>
           <tr>
             <% let ranking = voters[voter]['ranking'] %>

@@ -124,7 +124,7 @@ app.get('/polls/:v_url/result', (req, res) => {
 });
 
 //!!!!!!!!
-//Peter's placeholder--please delete if he's finished with it and forgot to do so himself :D
+//Peter's placeholder--please delete or update if he's finished with it and forgot to do so himself :D
 app.get('/admin', (req, res) => {
   let templateVars = {};
   knex
@@ -138,7 +138,6 @@ app.get('/admin', (req, res) => {
     })
   .then(() =>
     knex
-
       .select('username', 'ranking')
       .from('votes')
       .where('polls_id', 2)
