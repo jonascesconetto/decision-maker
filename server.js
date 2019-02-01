@@ -70,8 +70,14 @@ app.get('/polls/vote', (req, res) => {
     .where('polls_id', 2)
     .then((results) => {
       templateVars.candidates = results;
+<<<<<<< HEAD
     })
     // .then(() => console.log('templateVars', templateVars))
+=======
+      // console.log(results);
+    })
+    // .then(() => console.log(templateVars))
+>>>>>>> e9e915193e228aca7efead11ab9950019c832db9
     .then(() => res.render('vote', templateVars));
 });
 
@@ -87,9 +93,19 @@ app.post('/polls/vote', (req, res) => {
 });
 
 // Vote page that displays results to date of the poll
-app.get('/polls/:v_url/result', (req, res) => {
-  // Pass database details to templateVars for current poll based on params.
-  res.render('results');
+app.get('/polls/vote/result', (req, res) => {
+  let templateVars = {};
+  knex
+    .select('*')
+    .from('candidates')
+    .where('polls_id', 2)
+    .orderBy('points', 'desc')
+    .then((results) => {
+      templateVars.candidates = results;
+      console.log(results);
+    })
+    // .then(() => console.log(templateVars))
+    .then(() => res.render('results', templateVars));
 });
 
 // Renders the admin page based on the admin link being clicked.
