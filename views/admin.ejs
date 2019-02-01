@@ -18,6 +18,14 @@
         <canvas id="myChart" width="400px" height="400px"></canvas>
       </div>
     </div>
+    <div class="row">
+      <h3><%= voters.length %> voters so far:</h3>
+      <ol>
+        <% for (let voter in voters) { %>
+          <li><%= voters[voter]['username'] %></li>
+        <% } %>
+      </ol>
+    </div>
   </div><!-- /.container -->
   <% include ./partials/_body-scripts %>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
