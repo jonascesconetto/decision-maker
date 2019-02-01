@@ -62,19 +62,25 @@ app.get('/polls/:v_url', (req, res) => {
   function verified (url) {
     return knex('polls')
       .where('vote_url', url)
+      .orWhere('admin_url', url)
       .then((results) => {
+        console.log('verified internal results', results);
         if (results.length === 0) {
           console.log('not found');
-        } else {
-          console.log('hi');
+          return false;
+        } else if (results[0]['vote_url'] === url) {
+          console.log('vote');
           return results[0]['vote_url'];
+        } else {
+          console.log('admin');
+          return results[0]['admin_url'];
         }
       });
   }
 
   verified(req.params.v_url)
-    .then((result) => { console.log('result', result); });
-  // if (req.params.id)
+    .then((result) => { console.log('after promise result', result); });
+
   let templateVars = {};
   knex
     .select('*')
