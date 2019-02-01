@@ -15,7 +15,15 @@ $(() => {
       $.ajax({
         method: 'POST',
         url: '/polls/:v_url/',
-        data: orderArray
+        data: JSON.stringify({orderArray}),
+      contentType: 'application/json',
+      success:function(result){
+        console.log("we are working");
+        window.location = "http://localhost:8080" ;
+      },
+      error:function(err){
+        console.log("something happened");
+      }
       });
       console.log(orderArray);
     });
