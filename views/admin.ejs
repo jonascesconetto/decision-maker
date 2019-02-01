@@ -2,7 +2,8 @@
 <html lang="en">
   <head>
     <% include ./partials/_head %>
-    <title>Results Page</title>
+    <title>Admin Page</title>
+
   </head>
 
   <body>
@@ -20,11 +21,15 @@
     </div>
     <div class="row">
       <h3><%= voters.length %> voters so far:</h3>
-      <ol>
+      <table>
         <% for (let voter in voters) { %>
-          <li><%= voters[voter]['username'] %></li>
+          <tr>
+            <% let ranking = voters[voter]['ranking'] %>
+            <td><strong><%= voters[voter]['username'] %></strong>: </td>
+            <td><%= ranking.split(',').join(', ')  %></td>
+          </tr>
         <% } %>
-      </ol>
+      </table>
     </div>
   </div><!-- /.container -->
   <% include ./partials/_body-scripts %>

@@ -131,17 +131,17 @@ app.get('/admin', (req, res) => {
     .select('*')
     .from('candidates')
     .leftJoin('polls', 'polls.id', 'candidates.polls_id')
-    .where('polls_id', 1)
+    .where('polls_id', 2)
     .orderBy('points', 'desc')
     .then((results) => {
       templateVars.candidates = results;
     })
   .then(() =>
     knex
-      .select('username')
+
+      .select('username', 'ranking')
       .from('votes')
-      .where('polls_id', 1)
-      .groupBy('username')
+      .where('polls_id', 2)
       .then((results) => {
         templateVars.voters = results;
       })
