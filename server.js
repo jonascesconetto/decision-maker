@@ -123,6 +123,32 @@ app.get('/polls/:v_url/result', (req, res) => {
   res.render('results');
 });
 
+//!!!!!!!!
+//Peter's placeholder--please delete if he's finished with it and forgot to do so himself :D
+app.get('/admin', (req, res) => {
+  let templateVars = {};
+  knex
+    .select('*')
+    .from('candidates')
+    .leftJoin('polls', 'polls.id', 'candidates.polls_id')
+    .where('polls_id', 2)
+    .orderBy('points', 'desc')
+    .then((results) => {
+      templateVars.candidates = results;
+    })
+  .then(() =>
+    knex
+      .select('username', 'ranking')
+      .from('votes')
+      .where('polls_id', 2)
+      .then((results) => {
+        templateVars.voters = results;
+      })
+  )
+  .then(() => res.render('admin', templateVars));
+});
+//!!!!!!!!
+
 app.listen(PORT, () => {
   console.log('Example app listening on port ' + PORT);
 });

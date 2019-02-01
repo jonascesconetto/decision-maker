@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <% include ./partials/_head %>
+    <title>Admin Page</title>
+  </head>
+
+  <body>
+  <% include ./partials/_header %>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8">
+        <h3>Results for Poll: <%= candidates[0]['title'] %></h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-8">
+        <canvas id="myChart" width="400px" height="400px"></canvas>
+      </div>
+    </div>
+    <div class="row">
+      <h3><%= voters.length %> voters so far:</h3>
+      <table>
+        <% for (let voter in voters) { %>
+          <tr>
+            <% let ranking = voters[voter]['ranking'] %>
+            <td><strong><%= voters[voter]['username'] %></strong>: </td>
+            <td><%= ranking.split(',').join(', ') %></td>
+          </tr>
+        <% } %>
+      </table>
+    </div>
+  </div><!-- /.container -->
+  <% include ./partials/_body-scripts %>
+  <% include ./partials/_chart-scripts %>
+  </body>
+</html>
