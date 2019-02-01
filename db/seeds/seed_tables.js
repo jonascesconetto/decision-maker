@@ -1,8 +1,8 @@
 
 const polls = [
-  {id: 1, admin_email: 'sumedhanarayanan@gmail.com', title: 'Lunch Suggestions', admin_url:'abcdef', vote_url:'uvwxyz'},
-  {id: 2, admin_email: 'petenol@gmail.com', title: 'Movie Suggestions', admin_url:'lorem', vote_url:'ipsum'},
-  {id: 3, admin_email: 'seelive.i@gmail.com', title: 'What shall we do this weekend?', admin_url: 'minim', vote_url:'tempor'}
+  {id: 1, admin_email: 'sumedhanarayanan@gmail.com', title: 'Lunch Suggestions', admin_url:'abcdef', vote_url:'uvwxyz', question: 'where do we go for lunch?'},
+  {id: 2, admin_email: 'petenol@gmail.com', title: 'Movie Suggestions', admin_url:'lorem', vote_url:'ipsum', question: 'What movie can we watch next week?'},
+  {id: 3, admin_email: 'seelive.i@gmail.com', title: 'Weekend plans', admin_url: 'minim', vote_url:'tempor', question: 'What shall we do this weekend?'}
 ]
 
 const candidates = [
