@@ -106,6 +106,7 @@ app.get('/polls/vote/result', (req, res) => {
   knex
     .select('*')
     .from('candidates')
+    .leftJoin('polls', 'polls.id', 'candidates.polls_id')
     .where('polls_id', 2)
     .orderBy('points', 'desc')
     .then((results) => {

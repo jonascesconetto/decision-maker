@@ -8,8 +8,14 @@
   <body>
   <% include ./partials/_header %>
   <div class="container">
-    <div class="col-lg-8">
-      <canvas id="myChart" width="400" height="400"></canvas>
+    <div class="row">
+      <div class="col-lg-8">
+        <h3>Results for Poll: <%= candidates[0]['title'] %></h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-8">
+        <canvas id="myChart" width="400px" height="400px"></canvas>
     </div>
   </div><!-- /.container -->
   <% include ./partials/_body-scripts %>
@@ -51,6 +57,7 @@
             }]
         },
         options: {
+            legend: { display: false },
             scales: {
                 xAxes: [{
                     ticks: {
@@ -60,11 +67,6 @@
             }
         }
     });
-    // console.log(getTest);
-    // for (let item in candidates) {
-    //   let candidate = candidates[item];
-    //   myChart.labels.push(candidate.candidate);
-    // }
     </script>
   </body>
 </html>

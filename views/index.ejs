@@ -16,52 +16,57 @@
       <form method="POST" action="/polls">
         <div class="form-group">
           <label for="newPollName">Poll Name: </label>
-          <input type="text" class="form-control" id="newPollName" placeholder="Enter new poll name">
+          <input type="text" class="form-control" name="newPollName" placeholder="Enter new poll name">
+        
         </div>
         <div class="form-group">
           <label for="newPollQuestion">Question: </label>
-          <input type="text" class="form-control" id="newPollQuestion" placeholder="What are you deciding?">
+          <input type="text" class="form-control" name="newPollQuestion" placeholder="What are you deciding?">
           <small class="form-text text-muted">This is the question you're voting on. Make it descriptive! (e.g. "Where are we going for dinner?", "What movie should we see on Friday?")</small>
         </div>
         <div class="form-group">
           <label for="option1">Option 1: </label>
-          <input type="text" class="form-control" id="option1" placeholder="Option 1">
+          <input type="text" class="form-control" name="option1" placeholder="Option 1">
         </div>
         <div class="form-group">
           <label for="comment">Description (optional):</label>
-          <textarea class="form-control" rows="5" id="details1"></textarea>
+          <textarea class="form-control" rows="5" name="details1"></textarea>
         </div>
         <div class="form-group">
           <label for="option2">Option 2: </label>
-          <input type="text" class="form-control" id="option2" placeholder="Option 2">
+          <input type="text" class="form-control" name="option2" placeholder="Option 2">
         </div>
         <div class="form-group">
           <label for="comment">Description (optional):</label>
-          <textarea class="form-control" rows="5" id="details2"></textarea>
+          <textarea class="form-control" rows="5" name="details2"></textarea>
         </div>
         <div class="form-group">
           <label for="option3">Option 3: </label>
-          <input type="text" class="form-control" id="option3" placeholder="Option 3">
+          <input type="text" class="form-control" name="option3" placeholder="Option 3">
         </div>
         <div class="form-group">
           <label for="comment">Description (optional):</label>
-          <textarea class="form-control" rows="5" id="details3"></textarea>
+          <textarea class="form-control" rows="5" name="details3"></textarea>
         </div>
         <div class="form-group">
           <label for="option4">Option 4: </label>
-          <input type="text" class="form-control" id="option4" placeholder="Option 4">
+          <input type="text" class="form-control" name="option4" placeholder="Option 4">
         </div>
         <div class="form-group">
           <label for="comment">Description (optional):</label>
-          <textarea class="form-control" rows="5" id="details4"></textarea>
+          <textarea class="form-control" rows="5" name="details4"></textarea>
         </div>
         <div class="form-group">
           <label for="option5">Option 5: </label>
-          <input type="text" class="form-control" id="option5" placeholder="Option 5">
+          <input type="text" class="form-control" name="option5" placeholder="Option 5">
         </div>
         <div class="form-group">
           <label for="comment">Description (optional):</label>
-          <textarea class="form-control" rows="5" id="details5"></textarea>
+          <textarea class="form-control" rows="5" name="details5"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="adminEmail">Email: </label>
+          <input type="email" class="form-control" name="adminEmail" placeholder="abc@mail.com" required>        
         </div>
         <button id="poll-submit" type="submit" class="btn btn-primary">Submit</button>
       </form>
