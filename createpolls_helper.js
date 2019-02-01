@@ -1,10 +1,14 @@
 //  Helper functions to  
 // 1. Write a new poll to the database
 // 2. Send an email to creator with the admin link and visitor link.
+const ENV         = process.env.ENV || 'development';
+const knexConfig  = require('./knexfile');
+const knex        = require('knex')(knexConfig[ENV]);
 
 var api_key = 'db88c9e27666194d9870bc47555b257e-c8c889c9-78662c6b';
 var domain = 'sandbox15da19073efc4253b56be0368fe36362.mailgun.org';
 var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
+const chance = require('chance').Chance();
 
 function generateRandomUrl() {
   //uses chance library to generate random hash of length 20
@@ -34,12 +38,12 @@ function writePollToDB (poll) {
 
     //  Inserts  into candidates table
     //calls manipulate form data 
-    let optionsData = manipulateFormData(formdata);
+    let optionsData = manipulateFormData(poll);
     optionsData.forEach( (element) => {
       let candidate = poll[element[0]];
       let description = poll[element[1]];
       knex('candidates')
-        .insert({polls_id: id[0], candidate, points: 0, description})
+        .insert({polls_id: id, candidate, points: 0, description})
         .then( () => {
           console.log("inserted candidates");
         })
@@ -80,6 +84,19 @@ function sendEmailToAdmin(adminEmail, admin_url, vote_url)  {
   });
 }
 
-module.exports = {
-  writePollToDB: writePollToDB(poll)
-}
+// test data
+const poll = { newPollName: 'Sumedha poll',
+newPollQuestion: 'Where should we vacation?',
+option1: 'Mexico',
+details1: 'Cancun',
+option2: 'Cuba',
+details2: 'Havana',
+option3: 'Australia',
+details3: '',
+option4: 'Greece',
+details4: 'Athens',
+option5: '',
+details5: '',
+adminEmail: 'sumedhanarayanan@gmail.com' }
+
+writePollToDB(poll);
