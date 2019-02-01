@@ -8,12 +8,6 @@
   <body>
   <% include ./partials/_header %>
   <div class="container">
-<!--     <% for(let item in candidates) { %>
-      <% let candidate = candidates[item]; %> -->
-      <h3><%= candidate['candidate'] %></h3>
-      <span><%= candidate['description'] %></span>
-      <h3><%= candidate['points'] %></h3>
-    <% }; %>
     <div class="col-lg-8">
       <canvas id="myChart" width="400" height="400"></canvas>
     </div>
@@ -22,13 +16,21 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
   <script>
     var ctx = document.getElementById("myChart");
+    var candidates = <%- JSON.stringify(candidates) %>;
+    var labels = [];
+    var scores = [];
+    for (let item in candidates) {
+      let candidate = candidates[item];
+      labels.push(candidate.candidate);
+      scores.push(candidate.points);
+    }
     var myChart = new Chart(ctx, {
-        type: 'bar',
+        type: 'horizontalBar',
         data: {
-            labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+            labels: labels,
             datasets: [{
-                label: '# of Votes',
-                data: [12, 12, 3, 5, 2, 3],
+                label: 'total ranking',
+                data: scores,
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
@@ -50,7 +52,7 @@
         },
         options: {
             scales: {
-                yAxes: [{
+                xAxes: [{
                     ticks: {
                         beginAtZero:true
                     }
@@ -58,6 +60,11 @@
             }
         }
     });
+    // console.log(getTest);
+    // for (let item in candidates) {
+    //   let candidate = candidates[item];
+    //   myChart.labels.push(candidate.candidate);
+    // }
     </script>
   </body>
 </html>

@@ -94,7 +94,7 @@ app.get('/polls/vote/result', (req, res) => {
     .orderBy('points', 'desc')
     .then((results) => {
       templateVars.candidates = results;
-      // console.log(results);
+      console.log(results);
     })
     // .then(() => console.log(templateVars))
     .then(() => res.render('results', templateVars));
