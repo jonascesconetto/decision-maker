@@ -70,14 +70,7 @@ app.get('/polls/vote', (req, res) => {
     .where('polls_id', 2)
     .then((results) => {
       templateVars.candidates = results;
-<<<<<<< HEAD
     })
-    // .then(() => console.log('templateVars', templateVars))
-=======
-      // console.log(results);
-    })
-    // .then(() => console.log(templateVars))
->>>>>>> e9e915193e228aca7efead11ab9950019c832db9
     .then(() => res.render('vote', templateVars));
 });
 
