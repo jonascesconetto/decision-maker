@@ -64,7 +64,7 @@ app.get('/polls/:url', (req, res) => {
   verified(req.params.url)
     .then((result) => {
       knex
-        .select('*')
+        .select('candidates.id as candidate_id', 'question', 'candidate', 'title', 'points')
         .from('candidates')
         .leftJoin('polls', 'polls.id', 'candidates.polls_id')
         .where('polls_id', result[1])
@@ -105,6 +105,7 @@ app.get('/polls/:url/result', (req, res) => {
 
 
   knex
+    // .select('candidates.id as candidate_id', 'question', 'candidate', 'title', 'points')
     .select()
     .from('candidates')
     .leftJoin('polls', 'polls.id', 'candidates.polls_id')
