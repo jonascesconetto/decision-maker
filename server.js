@@ -61,6 +61,7 @@ app.get('/polls/:url', (req, res) => {
       knex
         .select('*')
         .from('candidates')
+        .leftJoin('polls', 'polls.id', 'candidates.polls_id')
         .where('polls_id', result[1])
         .then((results) => {
           templateVars.candidates = results;
@@ -99,8 +100,12 @@ app.get('/polls/:url/result', (req, res) => {
     .orderBy('points', 'desc')
     .then((results) => {
       templateVars.candidates = results;
+      console.log('results: ', results);
     })
-    .then(() => res.render('results', templateVars));
+    .then(() => {
+      res.render('results', templateVars);
+      console.log('templateVars: ', templateVars);
+    });
 });
 
 // Renders the admin page based on the admin link being clicked.
