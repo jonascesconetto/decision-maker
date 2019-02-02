@@ -12,13 +12,16 @@ $(() => {
     });
     $( "#sortable" ).disableSelection();
 
+    $( "#nameField" ).on("input", function() {
+      $("#errorMsg").slideUp();
+    });
+
     $( "#voteSubmit").on("click", function(event) {
       event.preventDefault();
-      let voterName = $(this).parents("#voteSubmitForm").find("input").val();
+      let voterName = $(this).parents("#voteSubmitForm").find("#nameField").val();
       if(voterName === "") {
         $("#errorMsg").slideDown();
       } else {
-        $("#errorMsg").slideUp();
         $.ajax({
           method: 'POST',
           url: '/polls/:v_url/',
@@ -32,7 +35,6 @@ $(() => {
             console.log("something happened");
           }
         });
-        console.log(orderArray);
       }
     });
   }
