@@ -48,8 +48,11 @@ app.get('/', (req, res) => {
 
 // Writes poll data to polls db when a user creates a poll
 app.post('/polls', (req, res) => {
-  poll(req.body);
-  res.redirect('/polls/ipsum'); // This :v_url will be a variable pulled from the polls table.
+  return poll(req.body)
+    .then((result) => {
+      console.log('vurl on post to Polls', result);
+      res.redirect(`/polls/${result}`);
+    });
 });
 
 // Vote page that displays options to vote for
@@ -111,14 +114,14 @@ app.get('/polls/admin/:url', (req, res) => {
     .select('*')
     .from('candidates')
     .leftJoin('polls', 'polls.id', 'candidates.polls_id')
-    .where('polls_id', 2)
+    .where('polls_id', 13)
     .orderBy('points', 'desc')
     .then((results) => {
       templateVars.candidates = results;
     })
   .then(() =>
     knex
-      .select('username', 'ranking')
+      .select('username', 'rating')
       .from('votes')
       .where('polls_id', 2)
       .then((results) => {
