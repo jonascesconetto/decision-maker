@@ -63,6 +63,9 @@ app.get('/polls/:url', (req, res) => {
   let templateVars = {};
   verified(req.params.url)
     .then((result) => {
+      if (result === false) {
+        res.render('not-found');
+      } else {
       knex
         .select('candidates.id as candidate_id', 'question', 'candidate', 'title', 'points')
         .from('candidates')
@@ -73,6 +76,7 @@ app.get('/polls/:url', (req, res) => {
           templateVars.candidates = results;
         })
         .then(() => res.render('vote', templateVars));
+      }
     });
 });
 
