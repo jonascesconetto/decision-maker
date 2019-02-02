@@ -49,7 +49,7 @@ app.get('/', (req, res) => {
 // Writes poll data to polls db when a user creates a poll
 app.post('/polls', (req, res) => {
   poll(req.body);
-  res.redirect('/polls/:url'); // This :v_url will be a variable pulled from the polls table.
+  res.redirect('/polls/ipsum'); // This :v_url will be a variable pulled from the polls table.
 });
 
 // Vote page that displays options to vote for
