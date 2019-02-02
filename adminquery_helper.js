@@ -16,10 +16,9 @@ function getUsers(polls_id) {
   .select('username')
   .where('polls_id', polls_id)
   .then( (rows) => {
-    var users = rows.map((element) => {return element.username})
-    console.log('users', users)
+    var users = rows.map((element) => {return element.username;});
     return users;
-  })
+  });
 }
 //usage:
 // getUsersFromDB(polls_id).then( (result) => {

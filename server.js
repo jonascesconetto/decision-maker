@@ -86,7 +86,7 @@ app.post('/polls/:url', (req, res) => {
     .where('vote_url', voteURL)
     .then((results) => {
       // console.log('POST vote', vote);
-      writeVotes(vote, results[0].polls_id, 'Cliff');
+      writeVotes(vote, results[0].polls_id, req.body.voterName);
       return borda(vote);
     })
     .then(() => {
@@ -100,11 +100,12 @@ app.post('/polls/:url', (req, res) => {
 // Vote page that displays results to date of the poll
 app.get('/polls/:url/result', (req, res) => {
   let templateVars = {};
-  // spotted the bug, the select below was selecting all fields so it got confused between id in polls and candidate table in the join
+  // spotted the bug, the select below was selecting all fields so it got confused between id
+   // in polls and candidate table in the join
 
 
   knex
-    .select() 
+    .select()
     .from('candidates')
     .leftJoin('polls', 'polls.id', 'candidates.polls_id')
     .where('vote_url', req.params.url)
@@ -124,13 +125,14 @@ app.get('/polls/:url/result', (req, res) => {
 app.get('/polls/admin/:url', (req, res) => {
   let templateVars = {};
   knex
-    .select('*')
+    .select('candidate', 'points', 'description', 'title', 'question', 'polls_id')
     .from('candidates')
     .leftJoin('polls', 'polls.id', 'candidates.polls_id')
     .where('admin_url', req.params.url)
     .orderBy('points', 'desc')
     .then((results) => {
       templateVars.candidates = results;
+      console.log('templateVars: ',templateVars);
       return admin(results[0].polls_id)
         .then((result) => {
           console.log('result', result);
