@@ -8,25 +8,38 @@
   <body id="index">
   <% include ./partials/_header %>
   <div class="container">
-    <ul id="sortable">
-      <% for(let item in candidates) { %>
-      <% let candidate = candidates[item]; %>
-      <div class="row" id=<%= candidate['id'] %>>
-        <li class="col-lg-6">
-          <h3 class="candidateName"><%= candidate['candidate'] %></h3>
-          <span class="candidateDesc"><%= candidate['description'] %></span>
-        </li>
-      </div>
-      <% } %>
-    </ul>
     <div class="row">
-      <div class="form-group col-lg-6">
+      <div class="col-lg-8 col-lg-offset-2">
+        <h2><%= candidates[0]['question'] %></h2>
+        <h3>Cast your vote!</h3>
+        <p>Rank your choices from most preferred (top) to least preferred (bottom) by dragging & dropping the items below!
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2">
+        <ul id="sortable">
+          <% for(let item in candidates) { %>
+          <% let candidate = candidates[item]; %>
+          <div id=<%= candidate['id'] %>>
+            <li>
+              <h3 class="candidateName"><%= candidate['candidate'] %></h3>
+              <span class="candidateDesc"><%= candidate['description'] %></span>
+            </li>
+          </div>
+          <% } %>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2">
         <label for="voterName">Name: </label>
         <input type="text" class="form-control" name="voterName" placeholder="Enter your name" required>
       </div>
     </div>
     <div class="row">
-      <button id="voteSubmit">Submit</button>
+      <div class="col-lg-8 col-lg-offset-2">
+        <button id="voteSubmit" class="btn btn-primary">Submit</button>
+      </div>
     </div>
   </div><!-- /.container -->
 
