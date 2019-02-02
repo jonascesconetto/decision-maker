@@ -5,3 +5,4 @@ public/styles
 *.sqlite3
 views/test.ejs
 .DS_Store
+package-lock.json
