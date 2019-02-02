@@ -80,7 +80,7 @@ app.get('/polls/:url', (req, res) => {
 app.post('/polls/:url', (req, res) => {
   const vote = req.body.oa;
   const href = req.body.url;
-  const voteURL = href.slice(28); // Function to be written to correct POST/polls/:url voteURL
+  const voteURL = href.slice(28);
   console.log(voteURL);
   knex('candidates')
     .leftJoin('polls', 'polls.id', 'candidates.polls_id')
@@ -142,6 +142,10 @@ app.get('/polls/admin/:url', (req, res) => {
         });
     })
     .then(() => res.render('admin', templateVars));
+});
+
+app.get('/error', (req, res) => {
+ res.render('not-found');
 });
 
 app.listen(PORT, () => {
