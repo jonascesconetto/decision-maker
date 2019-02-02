@@ -20,7 +20,7 @@
         <ul id="sortable">
           <% for(let item in candidates) { %>
           <% let candidate = candidates[item]; %>
-          <div id=<%= candidate['id'] %>>
+          <div id=<%= candidate['candidate_id'] %>>
             <li>
               <h3 class="candidateName"><%= candidate['candidate'] %></h3>
               <span class="candidateDesc"><%= candidate['description'] %></span>
