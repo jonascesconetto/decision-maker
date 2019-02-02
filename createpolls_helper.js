@@ -15,6 +15,11 @@ function generateRandomUrl() {
   return chance.hash({length: 20});
 }
 
+function generateEmailText(admin_url, vote_url) {
+ 
+
+}
+
 module.exports = function writePollToDB (poll) {
   const vUrl = generateRandomUrl();
   return knex('polls')
@@ -75,10 +80,18 @@ function manipulateFormData(formdata) {
 function sendEmailToAdmin(adminEmail, admin_url, vote_url)  {
   // Creates email template
   var data = {
-    from: 'admin@' + domain,
+    from: 'decisionmaker@' + domain,
     to: adminEmail,
     subject: 'Your Poll is live',
-    text: 'Hi! Thank you for creating your poll. Your admin link is /polls/admin/' + admin_url + ' and the URL to share with your friends is /polls/' + vote_url,
+    text:`Hi! Thank you for creating your poll! We are excited to help you and your friends make your decision. Share the link below with your to get the votes started.
+
+    Voting Link: http://localhost:8080/polls/${vote_url}. 
+
+    To view results you can view the admin link:
+    Admin Link: http://localhost:8080/polls/${admin_url} 
+
+    Keep this email safe. You will be unable to access the poll without the links. 
+    Happy Polling!`
   };
 
   mailgun.messages().send(data, function (error, body) {
