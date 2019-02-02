@@ -2,7 +2,8 @@
 <html lang="en">
   <head>
     <% include ./partials/_head %>
-    <title>Results Page</title>
+    <title>Admin Page</title>
+
   </head>
 
   <body id="index">
@@ -17,6 +18,18 @@
       <div class="col-lg-8">
         <canvas id="myChart" width="400px" height="400px"></canvas>
       </div>
+    </div>
+    <div class="row">
+      <h3><%= voters.length %> voters so far:</h3>
+      <table class="adminStats">
+        <% for (let voter in voters) { %>
+          <tr>
+            <% let ranking = voters[voter]['ranking'] %>
+            <td><strong><%= voters[voter]['username'] %></strong>: </td>
+            <td><%= ranking.split(',').join(', ')  %></td>
+          </tr>
+        <% } %>
+      </table>
     </div>
   </div><!-- /.container -->
   <% include ./partials/_body-scripts %>

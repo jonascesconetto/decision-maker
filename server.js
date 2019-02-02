@@ -13,7 +13,8 @@ const knexConfig  = require('./knexfile');
 const knex        = require('knex')(knexConfig[ENV]);
 const morgan      = require('morgan');
 const knexLogger  = require('knex-logger');
-const chance = require('chance').Chance();
+const chance      = require('chance').Chance();
+const poll        = require('./createpolls_helper');
 
 // Seperated Routes for each Resource
 const usersRoutes = require('./routes/users');
@@ -47,96 +48,116 @@ app.get('/', (req, res) => {
 
 // Writes poll data to polls db when a user creates a poll
 app.post('/polls', (req, res) => {
-  // Write poll creation data to DB
-  // console.log(req.body);
-  const randUrl = chance.hash({ length: 20 });
-  console.log(randUrl);
-  res.redirect('/polls/:v_url'); // This :v_url will be a variable pulled from the polls table.
+  poll(req.body);
+  res.redirect('/polls/:url'); // This :v_url will be a variable pulled from the polls table.
 });
 
-
 // Vote page that displays options to vote for
-app.get('/polls/:v_url', (req, res) => {
+app.get('/polls/:url', (req, res) => {
   // Pull data from DB specific to poll as per the params in the get request and render the page.
-
-  function verified (url) {
-    return knex('polls')
-      .where('vote_url', url)
-      .orWhere('admin_url', url)
-      .then((results) => {
-        console.log('verified internal results', results);
-        if (results.length === 0) {
-          console.log('not found');
-          return false;
-        } else if (results[0]['vote_url'] === url) {
-          console.log('vote');
-          return results[0]['vote_url'];
-        } else {
-          console.log('admin');
-          return results[0]['admin_url'];
-        }
-      });
-  }
-
-  verified(req.params.v_url)
-    .then((result) => { console.log('after promise result', result); });
-
   let templateVars = {};
-  knex
-    .select('*')
-    .from('candidates')
-    .where('polls_id', 2)
-    .then((results) => {
-      templateVars.candidates = results;
-    })
-    .then(() => res.render('vote', templateVars));
+  verified(req.params.url)
+    .then((result) => {
+      knex
+        .select('*')
+        .from('candidates')
+        .where('polls_id', result[1])
+        .then((results) => {
+          templateVars.candidates = results;
+        })
+        .then(() => res.render('vote', templateVars));
+    });
 });
 
 // Calculates the points for each candidate & updates DB.
-app.post('/polls/:v_url', (req, res) => {
-  const vote = req.body.orderArray;
+app.post('/polls/:url', (req, res) => {
+  const vote = req.body.oa;
+  const href = req.body.url;
+  const voteURL = href.slice(28);
   knex('candidates')
-    .where('polls_id', 2) //make the 2 dynamic
-    .then((results) => {
-      borda(vote);
-      res.send({ result: true });
+    .leftJoin('polls', 'polls.id', 'candidates.polls_id')
+    .where('vote_url', voteURL)
+    .then(() => {
+      return borda(vote);
+    })
+    .then(() => {
+      res.send({ result: `http://localhost:8080/polls/${voteURL}/result` });
+    })
+    .catch((error)=> {
+      res.sendStatus(400, "this didn't work");
     });
 });
 
 // Vote page that displays results to date of the poll
-app.get('/polls/:v-url/result', (req, res) => {
+app.get('/polls/:url/result', (req, res) => {
   let templateVars = {};
   knex
     .select('*')
     .from('candidates')
     .leftJoin('polls', 'polls.id', 'candidates.polls_id')
-    .where('polls_id', 2) //make the 2 dynamic
+    .where('vote_url', req.params.url)
     .orderBy('points', 'desc')
     .then((results) => {
       templateVars.candidates = results;
-      console.log(results);
     })
-    // .then(() => console.log(templateVars))
     .then(() => res.render('results', templateVars));
 });
 
 // Renders the admin page based on the admin link being clicked.
-app.get('/polls/:admin_url', (req, res) => {
-  // Admin page with results, voters' name
-  res.render('admin');
+// ADMIN ONLY GET REQUEST ------------PETER
+app.get('/polls/admin/:url', (req, res) => {
+  let templateVars = {};
+  knex
+    .select('*')
+    .from('candidates')
+    .leftJoin('polls', 'polls.id', 'candidates.polls_id')
+    .where('polls_id', 2)
+    .orderBy('points', 'desc')
+    .then((results) => {
+      templateVars.candidates = results;
+    })
+  .then(() =>
+    knex
+      .select('username', 'ranking')
+      .from('votes')
+      .where('polls_id', 2)
+      .then((results) => {
+        templateVars.voters = results;
+      })
+  )
+  .then(() => res.render('admin', templateVars));
 });
 
 app.listen(PORT, () => {
   console.log('Example app listening on port ' + PORT);
 });
 
-function borda (rank) {
-  console.log('rank', rank);
-  for (var i = 0; i < rank.length; i++) {
-    let points = rank.length - i;
-    knex('candidates')
-      .where('id', rank[i])
+
+function borda (ranks) {
+
+  return Promise.all(ranks.map((rank, index) => {
+    let points = ranks.length - index;
+    return knex('candidates')
+      .where('id', rank)
       .increment('points', points)
       .then(() => console.log('done'));
-  }
+  }));
+}
+
+function verified (url) {
+  return knex('polls')
+    .where('vote_url', url)
+    .orWhere('admin_url', url)
+    .then((results) => {
+      if (results.length === 0) {
+        console.log('not found');
+        return false;
+      } else if (results[0]['vote_url'] === url) {
+        console.log('vote');
+        return [results[0]['vote_url'], results[0]['id']];
+      } else {
+        console.log('admin');
+        return [results[0]['admin_url'], results[0]['id']];
+      }
+    });
 }
