@@ -85,10 +85,10 @@ function sendEmailToAdmin(adminEmail, admin_url, vote_url)  {
     subject: 'Your Poll is live',
     text:`Hi! Thank you for creating your poll! We are excited to help you and your friends make your decision. Share the link below with your to get the votes started.
 
-    Voting Link: http://localhost:8080/polls/${vote_url}. 
+    Voting Link: http://localhost:8080/polls/${vote_url} 
 
     To view results you can view the admin link:
-    Admin Link: http://localhost:8080/polls/${admin_url} 
+    Admin Link: http://localhost:8080/polls/admin/${admin_url} 
 
     Keep this email safe. You will be unable to access the poll without the links. 
     Happy Polling!`
