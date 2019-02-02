@@ -86,7 +86,7 @@ app.post('/polls/:url', (req, res) => {
     .where('vote_url', voteURL)
     .then((results) => {
       console.log('POST vote', vote);
-      writeVotes(vote, results[0].polls_id, req.body.voterName);
+      writeVotes(vote, results[0].polls_id, 'cliff');
       return borda(vote);
     })
     .then(() => {
