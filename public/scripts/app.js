@@ -24,7 +24,7 @@ $(() => {
       } else {
         $.ajax({
           method: 'POST',
-          url: '/polls/:v_url/',
+          url: '/polls/:url/',
           data: JSON.stringify({orderArray}),
           contentType: 'application/json',
           success:function(result){
