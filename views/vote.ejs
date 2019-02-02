@@ -19,15 +19,18 @@
       </div>
       <% } %>
     </ul>
-    <div class="row">
-      <div class="form-group col-lg-6">
-        <label for="voterName">Name: </label>
-        <input type="text" class="form-control" name="voterName" placeholder="Enter your name" required>
+    <form id="voteSubmitForm">
+      <div class="row">
+        <div class="form-group col-lg-6">
+          <label for="voterName">Name: </label>
+          <input type="text" class="form-control" name="voterName" placeholder="Enter your name" required>
+          <p id="errorMsg">Please enter your name before voting.</p>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <button id="voteSubmit">Submit</button>
-    </div>
+      <div class="row">
+        <button id="voteSubmit" type="submit">Submit</button>
+      </div>
+    </form>
   </div><!-- /.container -->
 
   <% include ./partials/_body-scripts %>
