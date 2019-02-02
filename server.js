@@ -130,22 +130,29 @@ app.get('/polls/:url/result', (req, res) => {
 // ADMIN ONLY GET REQUEST ------------PETER
 app.get('/polls/admin/:url', (req, res) => {
   let templateVars = {};
-  knex
-    .select('candidate', 'points', 'description', 'title', 'question', 'polls_id')
-    .from('candidates')
-    .leftJoin('polls', 'polls.id', 'candidates.polls_id')
-    .where('admin_url', req.params.url)
-    .orderBy('points', 'desc')
-    .then((results) => {
-      templateVars.candidates = results;
-      console.log('templateVars: ', templateVars);
-      return admin(results[0].polls_id)
-        .then((result) => {
-          console.log('result', result);
-          templateVars.voters = result;
-        });
-    })
-    .then(() => res.render('admin', templateVars));
+  verified(req.params.url)
+    .then((result) => {
+      if (result === false) {
+        res.render('not-found');
+      } else {
+        knex
+          .select('candidate', 'points', 'description', 'title', 'question', 'polls_id')
+          .from('candidates')
+          .leftJoin('polls', 'polls.id', 'candidates.polls_id')
+          .where('admin_url', req.params.url)
+          .orderBy('points', 'desc')
+          .then((results) => {
+            templateVars.candidates = results;
+            console.log('templateVars: ', templateVars);
+            return admin(results[0].polls_id)
+              .then((result) => {
+                console.log('result', result);
+                templateVars.voters = result;
+              });
+          })
+          .then(() => res.render('admin', templateVars));
+      }
+    });
 });
 
 app.get('/error', (req, res) => {
