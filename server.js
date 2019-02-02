@@ -15,6 +15,8 @@ const morgan      = require('morgan');
 const knexLogger  = require('knex-logger');
 const chance      = require('chance').Chance();
 const poll        = require('./createpolls_helper');
+const admin       = require('./adminquery_helper');
+const writeVotes  = require('./writevotes_helper');
 
 // Seperated Routes for each Resource
 const usersRoutes = require('./routes/users');
@@ -50,7 +52,7 @@ app.get('/', (req, res) => {
 app.post('/polls', (req, res) => {
   return poll(req.body)
     .then((result) => {
-      console.log('vurl on post to Polls', result);
+      // console.log('vurl on post to Polls', result);
       res.redirect(`/polls/${result}`);
     });
 });
@@ -67,6 +69,7 @@ app.get('/polls/:url', (req, res) => {
         .leftJoin('polls', 'polls.id', 'candidates.polls_id')
         .where('polls_id', result[1])
         .then((results) => {
+          console.log('vote page results', results);
           templateVars.candidates = results;
         })
         .then(() => res.render('vote', templateVars));
@@ -81,7 +84,9 @@ app.post('/polls/:url', (req, res) => {
   knex('candidates')
     .leftJoin('polls', 'polls.id', 'candidates.polls_id')
     .where('vote_url', voteURL)
-    .then(() => {
+    .then((results) => {
+      // console.log('POST vote', vote);
+      writeVotes(vote, results[0].polls_id, 'Cliff');
       return borda(vote);
     })
     .then(() => {
@@ -103,11 +108,11 @@ app.get('/polls/:url/result', (req, res) => {
     .orderBy('points', 'desc')
     .then((results) => {
       templateVars.candidates = results;
-      console.log('results: ', results);
+      // console.log('results: ', results);
     })
     .then(() => {
       res.render('results', templateVars);
-      console.log('templateVars: ', templateVars);
+      // console.log('templateVars: ', templateVars);
     });
 });
 
@@ -123,17 +128,13 @@ app.get('/polls/admin/:url', (req, res) => {
     .orderBy('points', 'desc')
     .then((results) => {
       templateVars.candidates = results;
+      return admin(results[0].polls_id)
+        .then((result) => {
+          console.log('result', result);
+          templateVars.voters = result;
+        });
     })
-  .then(() =>
-    knex
-      .select('username', 'rating')
-      .from('votes')
-      .where('polls_id', 2)
-      .then((results) => {
-        templateVars.voters = results;
-      })
-  )
-  .then(() => res.render('admin', templateVars));
+    .then(() => res.render('admin', templateVars));
 });
 
 app.listen(PORT, () => {
@@ -144,6 +145,7 @@ app.listen(PORT, () => {
 function borda (ranks) {
 
   return Promise.all(ranks.map((rank, index) => {
+    console.log('rank', rank);
     let points = ranks.length - index;
     return knex('candidates')
       .where('id', rank)

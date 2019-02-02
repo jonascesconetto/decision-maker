@@ -40,9 +40,10 @@ module.exports = function writePollToDB (poll) {
     //  Inserts  into candidates table
     //calls manipulate form data
     let optionsData = manipulateFormData(poll);
-    return Promise.all(optionsData.map( (element) => {
+    return Promise.all(optionsData.map( (element, index) => {
       let candidate = poll[element[0]];
       let description = poll[element[1]];
+      console.log('From pollshelper: candidate',candidate , 'description', description, 'element', element);
       return knex('candidates')
         .insert({ polls_id: id, candidate, points: 0, description })
         .then(() => {

@@ -17,7 +17,8 @@ function getUsers(polls_id) {
   .where('polls_id', polls_id)
   .then( (rows) => {
     var users = rows.map((element) => {return element.username})
-    return users;;
+    console.log('users', users)
+    return users;
   })
 }
 //usage:
@@ -25,15 +26,10 @@ function getUsers(polls_id) {
   // templateVars.voters = results;
 // })
 module.exports = function getUsersFromDB(polls_id) {
-  
-  return getUsers(polls_id).then( (users) => {
-      users.forEach( (element) => {
-        template[element] = [];
-      })
-      return users;
-    })
+  console.log('pollsid', polls_id);
+  return getUsers(polls_id)
     .then( (users) => {
-      // console.log(users);
+      console.log('users', users);
       var promiseArr = users.map( (elem) => {
         return knex
           .select('candidate')
@@ -47,8 +43,8 @@ module.exports = function getUsersFromDB(polls_id) {
             var arr = rows.map( (elem) => {
               return elem.candidate;
             })
-            
-            let obj = { 
+
+            let obj = {
               username: elem,
               ranking: arr.join(',')
             }
