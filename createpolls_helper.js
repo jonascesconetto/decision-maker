@@ -16,7 +16,7 @@ function generateRandomUrl() {
 }
 
 module.exports = function writePollToDB (poll) {
-
+  const vUrl = generateRandomUrl();
   return knex('polls')
   .returning(['id', 'admin_email', 'admin_url', 'vote_url'])
   .insert({
@@ -24,7 +24,7 @@ module.exports = function writePollToDB (poll) {
       title: poll.newPollName,
       question: poll.newPollQuestion,
       admin_url: generateRandomUrl(),
-      vote_url: generateRandomUrl()
+      vote_url: vUrl
     })
   .then((columns) => {
 
@@ -40,25 +40,24 @@ module.exports = function writePollToDB (poll) {
     //  Inserts  into candidates table
     //calls manipulate form data
     let optionsData = manipulateFormData(poll);
-    optionsData.forEach( (element) => {
+    return Promise.all(optionsData.map( (element) => {
       let candidate = poll[element[0]];
       let description = poll[element[1]];
-      knex('candidates')
-        .insert({polls_id: id, candidate, points: 0, description})
-        .then( () => {
+      return knex('candidates')
+        .insert({ polls_id: id, candidate, points: 0, description })
+        .then(() => {
           console.log("inserted candidates");
         })
         .catch((err) => {
           console.log(err);
         });
-    })
-
+    }));
   })
-
+  .then(() => { return vUrl; })
   .catch((error) => {
     console.error(error);
   });
-}
+};
 
 // manipulates form data to help writing to the database
 function manipulateFormData(formdata) {
