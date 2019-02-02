@@ -72,7 +72,6 @@ app.get('/polls/:url', (req, res) => {
 
 // Calculates the points for each candidate & updates DB.
 app.post('/polls/:url', (req, res) => {
-  // const vote = req.body.orderArray;
   const vote = req.body.oa;
   const href = req.body.url;
   const voteURL = href.slice(28);
@@ -126,35 +125,6 @@ app.get('/polls/admin/:url', (req, res) => {
   )
   .then(() => res.render('admin', templateVars));
 });
-
-
-
-//!!!!!!!!
-//Peter's placeholder--please delete or update if he's finished with it and forgot to do so himself :D
-app.get('/admin', (req, res) => {
-  let templateVars = {};
-  knex
-    .select('*')
-    .from('candidates')
-    .leftJoin('polls', 'polls.id', 'candidates.polls_id')
-    .where('polls_id', 2)
-    .orderBy('points', 'desc')
-    .then((results) => {
-      templateVars.candidates = results;
-    })
-  .then(() =>
-    knex
-      .select('username', 'ranking')
-      .from('votes')
-      .where('polls_id', 2)
-      .then((results) => {
-        templateVars.voters = results;
-      })
-  )
-  .then(() => res.render('admin', templateVars));
-});
-//!!!!!!!!
-
 
 app.listen(PORT, () => {
   console.log('Example app listening on port ' + PORT);
