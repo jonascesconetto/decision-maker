@@ -67,7 +67,7 @@ app.get('/polls/:url', (req, res) => {
         res.render('not-found');
       } else {
       knex
-        .select('candidates.id as candidate_id', 'question', 'candidate', 'title', 'points')
+        .select('candidates.id as candidate_id', 'question', 'candidate', 'title', 'points', 'vote_url')
         .from('candidates')
         .leftJoin('polls', 'polls.id', 'candidates.polls_id')
         .where('polls_id', result[1])
@@ -129,7 +129,6 @@ app.get('/polls/:url/result', (req, res) => {
 });
 
 // Renders the admin page based on the admin link being clicked.
-// ADMIN ONLY GET REQUEST ------------PETER
 app.get('/polls/admin/:url', (req, res) => {
   let templateVars = {};
   verified(req.params.url)
