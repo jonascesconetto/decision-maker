@@ -114,7 +114,7 @@ app.get('/polls/admin/:url', (req, res) => {
     .select('*')
     .from('candidates')
     .leftJoin('polls', 'polls.id', 'candidates.polls_id')
-    .where('polls_id', 13)
+    .where('admin_url', req.params.url)
     .orderBy('points', 'desc')
     .then((results) => {
       templateVars.candidates = results;
