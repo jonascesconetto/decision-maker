@@ -1,4 +1,4 @@
-//  Helper functions to  
+//  Helper functions to
 // 1. Write a new poll to the database
 // 2. Send an email to creator with the admin link and visitor link.
 const ENV         = process.env.ENV || 'development';
@@ -15,8 +15,9 @@ function generateRandomUrl() {
   return chance.hash({length: 20});
 }
 
-function writePollToDB (poll) {
-  knex('polls')
+module.exports = function writePollToDB (poll) {
+
+  return knex('polls')
   .returning(['id', 'admin_email', 'admin_url', 'vote_url'])
   .insert({
       admin_email: poll.adminEmail,
@@ -26,7 +27,7 @@ function writePollToDB (poll) {
       vote_url: generateRandomUrl()
     })
   .then((columns) => {
-    
+
     // Breaks down return from insert to different values
     id = columns[0]['id'];
     admin_email = columns[0]['admin_email'];
@@ -37,7 +38,7 @@ function writePollToDB (poll) {
     sendEmailToAdmin(admin_email, admin_url, vote_url);
 
     //  Inserts  into candidates table
-    //calls manipulate form data 
+    //calls manipulate form data
     let optionsData = manipulateFormData(poll);
     optionsData.forEach( (element) => {
       let candidate = poll[element[0]];
@@ -51,9 +52,11 @@ function writePollToDB (poll) {
           console.log(err);
         });
     })
+
   })
-  .catch((error) => { 
-    console.error(error); 
+
+  .catch((error) => {
+    console.error(error);
   });
 }
 
@@ -99,4 +102,5 @@ option5: '',
 details5: '',
 adminEmail: 'sumedhanarayanan@gmail.com' }
 
-writePollToDB(poll);
+// writePollToDB(poll);
+

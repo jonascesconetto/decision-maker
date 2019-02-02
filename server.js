@@ -13,7 +13,8 @@ const knexConfig  = require('./knexfile');
 const knex        = require('knex')(knexConfig[ENV]);
 const morgan      = require('morgan');
 const knexLogger  = require('knex-logger');
-const chance = require('chance').Chance();
+const chance      = require('chance').Chance();
+const poll        = require('./createpolls_helper');
 
 // Seperated Routes for each Resource
 const usersRoutes = require('./routes/users');
@@ -47,10 +48,8 @@ app.get('/', (req, res) => {
 
 // Writes poll data to polls db when a user creates a poll
 app.post('/polls', (req, res) => {
-  // Write poll creation data to DB
-  const randUrl = chance.hash({ length: 20 });
-  console.log(randUrl);
-  res.redirect('/polls/:v_url'); // This :v_url will be a variable pulled from the polls table.
+  poll(req.body);
+  res.redirect('/polls/:url'); // This :v_url will be a variable pulled from the polls table.
 });
 
 // Vote page that displays options to vote for
@@ -78,11 +77,14 @@ app.post('/polls/:url', (req, res) => {
   knex('candidates')
     .leftJoin('polls', 'polls.id', 'candidates.polls_id')
     .where('vote_url', voteURL)
-    .then((results) => {
-      borda(vote);
+    .then(() => {
+      return borda(vote);
     })
-    .then((results) => {
+    .then(() => {
       res.send({ result: `http://localhost:8080/polls/${voteURL}/result` });
+    })
+    .catch((error)=> {
+      res.sendStatus(400, "this didn't work");
     });
 });
 
@@ -130,16 +132,16 @@ app.listen(PORT, () => {
   console.log('Example app listening on port ' + PORT);
 });
 
-function borda (rank) {
-  console.log('borda rank', rank);
-  for (var i = 0; i < rank.length; i++) {
-    let points = rank.length - i;
-    knex('candidates')
-      .where('id', rank[i])
+
+function borda (ranks) {
+
+  return Promise.all(ranks.map((rank, index) => {
+    let points = ranks.length - index;
+    return knex('candidates')
+      .where('id', rank)
       .increment('points', points)
       .then(() => console.log('done'));
-  }
-  return;
+  }));
 }
 
 function verified (url) {
