@@ -72,7 +72,7 @@ app.get('/polls/:url', (req, res) => {
         .leftJoin('polls', 'polls.id', 'candidates.polls_id')
         .where('polls_id', result[1])
         .then((results) => {
-          console.log('vote page results', results);
+          // console.log('vote page results', results);
           templateVars.candidates = results;
         })
         .then(() => res.render('vote', templateVars));
@@ -85,13 +85,14 @@ app.post('/polls/:url', (req, res) => {
   const vote = req.body.oa;
   const href = req.body.url;
   const voteURL = href.slice(28);
-  console.log(voteURL);
+  const voterName = req.body.name;
+  console.log('Votername', voterName);
   knex('candidates')
     .leftJoin('polls', 'polls.id', 'candidates.polls_id')
     .where('vote_url', voteURL)
     .then((results) => {
-      console.log('POST vote', results);
-      writeVotes(vote, results[0].polls_id, 'cliff');
+      // console.log('POST vote', results);
+      writeVotes(vote, results[0].polls_id, voterName);
       return borda(vote);
     })
     .then(() => {

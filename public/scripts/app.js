@@ -18,14 +18,15 @@ $(() => {
 
     $( "#voteSubmit").on("click", function(event) {
       event.preventDefault();
-      let voterName = $(this).parents("#voteSubmitForm").find("#nameField").val();
+      let voterName = $("#nameField").val();
+      console.log(voterName);
       if(voterName === "") {
         $("#errorMsg").slideDown();
       } else {
         $.ajax({
           method: 'POST',
           url: '/polls/:url/',
-          data: JSON.stringify({oa: orderArray, url: window.location.href}),
+          data: JSON.stringify({ oa: orderArray, url: window.location.href, name: voterName }),
           contentType: 'application/json',
           success:function(result){
             console.log("we are working");
