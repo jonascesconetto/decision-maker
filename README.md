@@ -1,4 +1,5 @@
-# Node Skeleton
+# Decision Maker
+A full stack web app that helps groups of friends to vote on a preferred choice (using ranked voting), for example: "What movie should we see next Friday?".
 
 ## Project Setup
 
