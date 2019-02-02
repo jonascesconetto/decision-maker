@@ -17,6 +17,7 @@ const chance      = require('chance').Chance();
 const poll        = require('./createpolls_helper');
 const admin       = require('./adminquery_helper');
 const writeVotes  = require('./writevotes_helper');
+const helper      = require('./helpers');
 
 // Seperated Routes for each Resource
 const usersRoutes = require('./routes/users');
@@ -61,21 +62,21 @@ app.post('/polls', (req, res) => {
 app.get('/polls/:url', (req, res) => {
   // Pull data from DB specific to poll as per the params in the get request and render the page.
   let templateVars = {};
-  verified(req.params.url)
+  helper.verified(req.params.url)
     .then((result) => {
       if (result === false) {
         res.render('not-found');
       } else {
-      knex
-        .select('candidates.id as candidate_id', 'question', 'candidate', 'title', 'points', 'vote_url')
-        .from('candidates')
-        .leftJoin('polls', 'polls.id', 'candidates.polls_id')
-        .where('polls_id', result[1])
-        .then((results) => {
-          // console.log('vote page results', results);
-          templateVars.candidates = results;
-        })
-        .then(() => res.render('vote', templateVars));
+        knex
+          .select('candidates.id as candidate_id', 'question', 'candidate', 'title', 'points', 'vote_url')
+          .from('candidates')
+          .leftJoin('polls', 'polls.id', 'candidates.polls_id')
+          .where('polls_id', result[1])
+          .then((results) => {
+            // console.log('vote page results', results);
+            templateVars.candidates = results;
+          })
+          .then(() => res.render('vote', templateVars));
       }
     });
 });
@@ -86,14 +87,14 @@ app.post('/polls/:url', (req, res) => {
   const href = req.body.url;
   const voteURL = href.slice(28);
   const voterName = req.body.name;
-  console.log('Votername', voterName);
+  // console.log('Votername', voterName);
   knex('candidates')
     .leftJoin('polls', 'polls.id', 'candidates.polls_id')
     .where('vote_url', voteURL)
     .then((results) => {
       // console.log('POST vote', results);
       writeVotes(vote, results[0].polls_id, voterName);
-      return borda(vote);
+      return helper.borda(vote);
     })
     .then(() => {
       res.send({ result: `http://localhost:8080/polls/${voteURL}/result` });
@@ -106,7 +107,7 @@ app.post('/polls/:url', (req, res) => {
 // Vote page that displays results to date of the poll
 app.get('/polls/:url/result', (req, res) => {
   let templateVars = {};
-  verified(req.params.url)
+  helper.verified(req.params.url)
     .then((result) => {
       if (result === false) {
         res.render('not-found');
@@ -132,7 +133,7 @@ app.get('/polls/:url/result', (req, res) => {
 // Renders the admin page based on the admin link being clicked.
 app.get('/polls/admin/:url', (req, res) => {
   let templateVars = {};
-  verified(req.params.url)
+  helper.verified(req.params.url)
     .then((result) => {
       if (result === false) {
         res.render('not-found');
@@ -166,32 +167,32 @@ app.listen(PORT, () => {
 });
 
 
-function borda (ranks) {
+// function borda (ranks) {
 
-  return Promise.all(ranks.map((rank, index) => {
-    console.log('rank', rank);
-    let points = ranks.length - index;
-    return knex('candidates')
-      .where('id', rank)
-      .increment('points', points)
-      .then(() => console.log('done'));
-  }));
-}
+//   return Promise.all(ranks.map((rank, index) => {
+//     console.log('rank', rank);
+//     let points = ranks.length - index;
+//     return knex('candidates')
+//       .where('id', rank)
+//       .increment('points', points)
+//       .then(() => console.log('done'));
+//   }));
+// }
 
-function verified (url) {
-  return knex('polls')
-    .where('vote_url', url)
-    .orWhere('admin_url', url)
-    .then((results) => {
-      if (results.length === 0) {
-        console.log('not found');
-        return false;
-      } else if (results[0]['vote_url'] === url) {
-        console.log('vote');
-        return [results[0]['vote_url'], results[0]['id']];
-      } else {
-        console.log('admin');
-        return [results[0]['admin_url'], results[0]['id']];
-      }
-    });
-}
+// function verified (url) {
+//   return knex('polls')
+//     .where('vote_url', url)
+//     .orWhere('admin_url', url)
+//     .then((results) => {
+//       if (results.length === 0) {
+//         console.log('not found');
+//         return false;
+//       } else if (results[0]['vote_url'] === url) {
+//         console.log('vote');
+//         return [results[0]['vote_url'], results[0]['id']];
+//       } else {
+//         console.log('admin');
+//         return [results[0]['admin_url'], results[0]['id']];
+//       }
+//     });
+// }
