@@ -24,15 +24,15 @@ $(() => {
       } else {
         $.ajax({
           method: 'POST',
-          url: '/polls/:v_url/',
-          data: JSON.stringify({orderArray}),
+          url: '/polls/:url/',
+          data: JSON.stringify({oa: orderArray, url: window.location.href}),
           contentType: 'application/json',
           success:function(result){
             console.log("we are working");
-            window.location = "http://localhost:8080" ;
+            window.location = result.result;
           },
           error:function(err){
-            console.log("something happened");
+            console.log("something happened", err);
           }
         });
       }
