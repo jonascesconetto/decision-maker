@@ -85,7 +85,7 @@ app.post('/polls/:url', (req, res) => {
     .leftJoin('polls', 'polls.id', 'candidates.polls_id')
     .where('vote_url', voteURL)
     .then((results) => {
-      // console.log('POST vote', vote);
+      console.log('POST vote', vote);
       writeVotes(vote, results[0].polls_id, req.body.voterName);
       return borda(vote);
     })
