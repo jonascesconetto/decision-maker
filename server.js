@@ -80,7 +80,8 @@ app.get('/polls/:url', (req, res) => {
 app.post('/polls/:url', (req, res) => {
   const vote = req.body.oa;
   const href = req.body.url;
-  const voteURL = href.slice(28);
+  const voteURL = href.slice(28); // Function to be written to correct POST/polls/:url voteURL
+  console.log(voteURL);
   knex('candidates')
     .leftJoin('polls', 'polls.id', 'candidates.polls_id')
     .where('vote_url', voteURL)
@@ -133,7 +134,7 @@ app.get('/polls/admin/:url', (req, res) => {
     .orderBy('points', 'desc')
     .then((results) => {
       templateVars.candidates = results;
-      console.log('templateVars: ',templateVars);
+      console.log('templateVars: ', templateVars);
       return admin(results[0].polls_id)
         .then((result) => {
           console.log('result', result);
