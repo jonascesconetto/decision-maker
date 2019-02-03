@@ -5,12 +5,13 @@
     <title>Home Page</title>
   </head>
 
-  <body id="index">
-    <% include ./partials/_header %>
-  <div class="container-fluid">
+<body>
+  <% include ./partials/_header %>
+  <div id="index" class="container-fluid">
     <div class="row">
-      <div class="col-lg-6 col-lg-offset-3">
-      <h3>Create a poll and take the pain out of group choices!</h3>
+      <div id="newPollInstructions" class="col-lg-6 col-lg-offset-3">
+      <h2 id="slogan">Make Group Decisions Slightly Less Painful</h2>
+      <h2>Create a New Poll</h2>
       <ul id="instructionList">
         <li>Give your new poll a name.</li>
         <li>Enter the question you are trying to decide on.</li>
@@ -39,15 +40,15 @@
             </div>
             <div class="form-group">
               <label for="comment">Description (optional):</label>
-              <textarea class="form-control" rows="5" name="details1"></textarea>
+              <textarea class="form-control" rows="2" name="details1"></textarea>
             </div>
             <div class="form-group">
               <label for="option2">Option 2: </label>
+              <input required type="text" class="form-control" name="option2" placeholder="Option 2">
             </div>
             <div class="form-group">
-              <input required type="text" class="form-control" name="option2" placeholder="Option 2">
               <label for="comment">Description (optional):</label>
-              <textarea class="form-control" rows="5" name="details2"></textarea>
+              <textarea class="form-control" rows="2" name="details2"></textarea>
             </div>
           </div>
           <button id="addOptionBtn" class="btn btn-primary">Add another option</button>

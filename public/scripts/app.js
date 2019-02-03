@@ -66,7 +66,7 @@ $(() => {
           .text("Description (optional):"),
         $('<textarea>')
           .addClass('form-control')
-          .attr('rows', '5')
+          .attr('rows', '2')
           .attr('name', `details${optionCount}`)
       );
       let renderOption = newOption[0].outerHTML;
