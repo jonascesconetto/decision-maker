@@ -17,7 +17,7 @@ $(() => {
 
     $( "#voteSubmit").on("click", function (event) {
       event.preventDefault();
-      let voterName = $("#nameField").val();
+      let voterName = $("#voterName").val();
       if(voterName === "") {
         $("#errorMsg").slideDown();
       } else {
