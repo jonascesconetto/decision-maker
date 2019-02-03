@@ -1,6 +1,6 @@
-// Helper functions to verfiy if the url is valid 
+// Helper functions to verfiy if the url is valid
 
-// Verifies if vote url is in the database 
+// Verifies if vote url is in the database
 // this should replace verified in app.get('/polls/:url'
 // & app.get('/polls/:url'
 function verifiedVote (url) {
@@ -13,11 +13,11 @@ function verifiedVote (url) {
       }
         console.log('vote');
         return [results[0]['vote_url'], results[0]['id']];
-    }
+    })
 }
 
 
-//verifies if admin link is in the database 
+//verifies if admin link is in the database
 // this should replace verified in app.get('/polls/admin/:url'
 function verifiedAdmin (url) {
   return knex('polls')
@@ -29,5 +29,5 @@ function verifiedAdmin (url) {
       }
         console.log('vote');
         return [results[0]['admin_url'], results[0]['id']];
-    }
+    })
 }
