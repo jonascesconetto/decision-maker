@@ -8,7 +8,7 @@ body {
 }
 
 #pageHeader {
-  background-color: #006666;
+  background-color: #008282;
   margin-top: 0px;
   padding-top: 20px;
 
@@ -40,12 +40,14 @@ body {
   padding-left: 0;
 
   li {
-    background-color: #b3daff;
+    background-color: #008282;
+    color: #e2f5f5;
     margin-left: 0;
     margin-bottom: 20px;
     padding: 10px;
     border-radius: 5px;
     border: 1px solid grey;
+    cursor: grab;
   }
 
   h3 {
