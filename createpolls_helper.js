@@ -69,6 +69,7 @@ module.exports = function writePollToDB(poll) {
       question: poll.newPollQuestion,
       admin_url: generateRandomUrl(),
       vote_url: vUrl,
+      is_active: true,
     })
     .then((columns) => {
       // Breaks down return value from insert to different values
