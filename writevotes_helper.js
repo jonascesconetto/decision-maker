@@ -6,17 +6,23 @@ const ENV         = process.env.ENV || 'development';
 const knexConfig  = require('./knexfile');
 const knex        = require('knex')(knexConfig[ENV]);
 
-function singleVoteToDB(candidatesID, rating, polls_id, voterName) {
+//test data
+// const vote = [ '5', '1', '2', '3', '4' ];
+// const polls_id = 1;
+// const voterName = "randomVoter1"
+
+
+function singleVoteToDB(candidates_id, rating, polls_id, voterName) {
   knex('votes')
-    .insert({
+  .insert({
       polls_id: polls_id,
       username: voterName,
-      candidates_id: candidatesID,
+      candidates_id: candidates_id,
       rating: rating
     })
-    .then( () => {
-      console.log("Wrote vote to table.");
-    });
+  .then( () => {
+    console.log("Wrote vote to table.");
+  });
 }
 
 module.exports = function writeVotestoDB (vote, polls_id, voterName) {
@@ -27,3 +33,5 @@ module.exports = function writeVotestoDB (vote, polls_id, voterName) {
     singleVoteToDB(element, rating, polls_id, voterName);
   });
 };
+
+// writeVotestoDB(vote, polls_id, voterName)
