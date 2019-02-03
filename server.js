@@ -61,22 +61,30 @@ app.post('/polls', (req, res) => {
 app.get('/polls/:url', (req, res) => {
   // Pull data from DB specific to poll as per the params in the get request and render the page.
   let templateVars = {};
-  helper.verifiedVote(req.params.url)
-    .then((result) => {
-      if (result === false) {
-        res.render('not-found');
-      } else {
-        knex
-          .select('candidates.id as candidate_id', 'question', 'candidate', 'title', 'points', 'vote_url', 'description')
-          .from('candidates')
-          .leftJoin('polls', 'polls.id', 'candidates.polls_id')
-          .where('polls_id', result[1])
-          .then((results) => {
-            templateVars.candidates = results;
-          })
-          .then(() => res.render('vote', templateVars));
-      }
-    });
+  // added to check if poll is active or not below - 
+  helper.verifiedActive(req.params.url)
+  .then((result) => {
+    if(result === false) {
+      res.send('Inactive poll');
+    } else {
+      helper.verifiedVote(req.params.url)
+      .then((result) => {
+        if (result === false) {
+          res.render('not-found');
+        } else {
+          knex
+            .select('candidates.id as candidate_id', 'question', 'candidate', 'title', 'points', 'vote_url', 'description')
+            .from('candidates')
+            .leftJoin('polls', 'polls.id', 'candidates.polls_id')
+            .where('polls_id', result[1])
+            .then((results) => {
+              templateVars.candidates = results;
+            })
+            .then(() => res.render('vote', templateVars));
+        }
+      });
+    } 
+  })
 });
 
 // Calculates the points for each candidate & updates DB.
