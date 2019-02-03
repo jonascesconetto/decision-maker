@@ -41,13 +41,17 @@ body {
 
   li {
     background-color: #008282;
-    color: #e2f5f5;
+    color: #f5ffff;
     margin-left: 0;
     margin-bottom: 20px;
     padding: 10px;
     border-radius: 5px;
     border: 1px solid grey;
     cursor: grab;
+  }
+
+  li:hover {
+    background-color: #00b7b7;
   }
 
   h3 {
