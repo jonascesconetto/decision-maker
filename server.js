@@ -9,7 +9,6 @@ const bodyParser  = require('body-parser');
 const sass        = require('node-sass-middleware');
 const app         = express();
 
-const request     = require('request');
 const knexConfig  = require('./knexfile');
 const knex        = require('knex')(knexConfig[ENV]);
 const morgan      = require('morgan');
@@ -19,6 +18,11 @@ const poll        = require('./createpolls_helper');
 const admin       = require('./adminquery_helper');
 const writeVotes  = require('./writevotes_helper');
 const helper      = require('./helpers');
+
+// added below for recaptcha
+var Recaptcha = require('express-recaptcha').Recaptcha;
+//import Recaptcha from 'express-recaptcha'
+var recaptcha = new Recaptcha('6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI', '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe');
 
 // Seperated Routes for each Resource
 const usersRoutes = require('./routes/users');
@@ -50,11 +54,19 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
-// Writes poll data to polls db when a user creates a poll
-app.post('/polls', (req, res) => {
-  // Script below for recaptcha v2 
-  console.log('captcha:', captchaVerify(req.body['g-recaptcha-response']));
-  // Script ends for recaptcha v2
+// Writes poll data to polls db when a user creates a poll 
+// recaptcha middleware added for processing feature
+app.post('/polls', recaptcha.middleware.verify, (req, res) => {
+  // Script below for recaptcha v2 ---
+  if (!req.recaptcha.error) {
+    // success code
+    console.log("Captcha was a success")
+  } else {
+    // error code
+    console.log("Captcha failed.")
+    res.sendStatus(400);
+  }
+  // --- Script ends for recaptcha v2
   return poll(req.body)
     .then((result) => {
       res.redirect(`/polls/${result}`);
@@ -161,22 +173,3 @@ app.get('/error', (req, res) => {
 app.listen(PORT, () => {
   console.log('Example app listening on port ' + PORT);
 });
-
-//  Helper function for recaptcha verify
-// eslint-disable-next-line consistent-return
-function captchaVerify(userCaptchaResponse) {
-  if (!userCaptchaResponse) {
-    return 'Please select captcha';
-  } 
-  const secretKey = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe';
-  const verificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}response=${userCaptchaResponse}`;
-  request(verificationUrl,function(error,response,body) {
-    body = JSON.parse(body);
-    console.log('captch', body);
-    // Success will be true or false depending upon captcha validation.
-    if(!body.success) {
-      return "Failed captcha verification";
-    }
-    return 'success!'
-  });
-}
