@@ -8,7 +8,7 @@
 
   <body>
   <% include ./partials/_header %>
-  <div id="index" class="container">
+  <div id="index" class="container-fluid">
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2">
         <h3 class="chartTitle">Results for Poll: <%= candidates[0]['title'] %></h3>
@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-8 col-lg-offset-2">
+      <div class="col-lg-6 col-lg-offset-3">
         <canvas id="myChart" width="400px" height="400px"></canvas>
       </div>
     </div>

@@ -7,9 +7,9 @@
 
   <body>
   <% include ./partials/_header %>
-  <div id="index" class="container">
+  <div id="index" class="container-fluid">
     <div class="row">
-      <div class="col-lg-8 col-lg-offset-2">
+      <div class="col-lg-6 col-lg-offset-3">
         <h2><%= candidates[0]['question'] %></h2>
         <h3>Cast your vote!</h3>
         <p>Rank your choices from most preferred (top) to least preferred (bottom) by dragging & dropping the items below!</p>
@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-8 col-lg-offset-2">
+      <div class="col-lg-6 col-lg-offset-3">
         <ul id="sortable">
           <% for(let item in candidates) { %>
           <% let candidate = candidates[item]; %>
@@ -32,14 +32,14 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-8 col-lg-offset-2">
+      <div class="col-lg-6 col-lg-offset-3">
         <label for="voterName">Name: </label>
         <input id="voterName" type="text" class="form-control" name="voterName" placeholder="Enter your name" required>
         <p id="errorMsg">Please enter your name before casting your vote!</p>
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-8 col-lg-offset-2">
+      <div class="col-lg-6 col-lg-offset-3">
         <button id="voteSubmit" class="btn btn-primary">Submit</button>
       </div>
     </div>
