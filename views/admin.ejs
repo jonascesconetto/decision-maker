@@ -10,26 +10,28 @@
   <% include ./partials/_header %>
   <div class="container">
     <div class="row">
-      <div class="col-lg-8">
-        <h3>Results for Poll: <%= candidates[0]['title'] %></h3>
+      <div class="col-lg-8 col-lg-offset-2">
+        <h3 id="chartTitle">Results for Poll: <%= candidates[0]['title'] %></h3>
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-8">
+      <div class="col-lg-8 col-lg-offset-2">
         <canvas id="myChart" width="400px" height="400px"></canvas>
       </div>
     </div>
     <div class="row">
+      <div class="col-lg-8 col-lg-offset-2">
       <h3><%= voters.length %> voters so far:</h3>
-      <table class="adminStats">
-        <% for (let voter in voters) { %>
-          <tr>
-            <% let ranking = voters[voter]['ranking'] %>
-            <td><strong><%= voters[voter]['username'] %></strong>: </td>
-            <td><%= ranking.split(',').join(', ')  %></td>
-          </tr>
-        <% } %>
-      </table>
+        <table class="adminStats">
+          <% for (let voter in voters) { %>
+            <tr>
+              <% let ranking = voters[voter]['ranking'] %>
+              <td><strong><%= voters[voter]['username'] %></strong>: </td>
+              <td><%= ranking.split(',').join(', ')  %></td>
+            </tr>
+          <% } %>
+        </table>
+      </div>
     </div>
   </div><!-- /.container -->
   <% include ./partials/_body-scripts %>
