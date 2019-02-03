@@ -1,7 +1,48 @@
 # Decision Maker
-A full stack web app that helps groups of friends to vote on a preferred choice (using ranked voting), for example: "What movie should we see next Friday?".
 
-## Project Setup
+## Introduction
+A full stack web app that helps groups of friends to vote on a preferred choice (using ranked voting), for example: "What movie should we see next Friday?" 
+
+### The Problem
+
+As a social person I want my group of friends to make a democratic choice on a group activity because it can be difficult to make a unified decision.
+
+### User Stories & Scenarios
+
+* Admin
+ - Given that I have several activities
+ - when I create a new poll and click enter my email and description and click submit
+ - then two links are generated and emailed to me (admin and vote). I then am redirected to the vote page so that I can cast my vote.
+
+* Voter
+ - Given that the vote link is clicked in the email the voting page opens in the browser
+ - when I enter my name, rank the choices and click submit
+ - then the vote is calculated and the results page loads.
+
+### Scenarios
+
+- What movie should we see?
+- What restaurant should we go to for Bill's birthday?
+- What activity should we do as Saturday is going to be a beautiful sunny day?
+
+### Features
+
+- Easy poll creation:  The user does not need to sign up on the app and can easily create a poll on the landing page
+- Security without authentication: Hashed URL links are sent to the user to access results and voting pages. 
+- Democratic ranking system: Voters can rank their preferences from most preferred to least preferred with a simple drag and drop form
+- Results algorithm: The app uses Borda Count [link](https://en.wikipedia.org/wiki/Borda_count) to rank voter preferences.
+- Poll transparency: Both the admin and the voter can see the results immediately after voting.
+- Admin page features: The admin user can view the calculated results, the number of votes and the preferences of each voter so far.
+
+### Screenshots
+
+## Project Stack
+
+- Client: HTML, JS, Jquery, Ajax and ejs for rendering pages
+- Server: Node.js
+- PostgreSQL for DB
+- Knex.js for querying and migrations
+- git for version control
 
 ## Getting Started
 
@@ -18,68 +59,19 @@ A full stack web app that helps groups of friends to vote on a preferred choice 
 
 ## Dependencies
 
-- Node 5.10.x or above
-- NPM 3.8.x or above
-- 
+- Node 
+- NPM 
+- Body Parser 
+- Chart.js 
+- dotenv
+- EJS
+- Express
+- Jquery UI
+- Knex
+- Mailgun-js
+- pg
 
-# Pages 
-
-- Landing page 
-  - form for creating the poll displayed
-  - has a submit button that creates a new poll
-  - index.html
-
-- Voting page 
-  - votes.html/ ejs
-  - displays a form for ranking options provided by the poll creator
-
-- Results page - 
- - results.ejs
- - displays results page for voters
-
-- Admin page -
- - admin.ejs
- - Admin view for the poll creater  that shows the results and voters' names
-
-
-#  Routes
-## GET /
-- landing page for the app. (index.html)
-- submit button links to POST /polls
-- Res -  renders index.html 
-
-## POST /polls
- - Writes poll data to polls db when a user creates a poll
- - Res - Redirect to  /mail/:pollid
-
-## POST /mail/:pollid
- - send email using mailgun API to the admin with the poll link and admin page link for the poll
- Res -> Redirect to /polls/:v_url 
-
-## GET /polls/:v_url
- - display all the options to vote
- RES -> Render vote.html 
-
-## POST /polls/:v_url
- - Calculates the points for each candidate using borda count
- - updates DB points for candidates
- - updates voter DB with name of voter
-  Res - > Redirect /polls/:v_url/result
-
-## GET /polls/:v_url/result
- - displays the results of the votes so far
-  Res - > render results.ejs
-
-## GET /polls/:admin_url
- - Admin page with results, voters' name
- - admin.ejs
- - res Render /polls/:admin_url
-
-
-# Wouldn't it be cool if?
-
-- Polling expired after a time set by admin
-- Auto delete polls after a year maybe?
--  Date of the event
-- Ability t0  delete the poll from the admin page
-- cookies to ensure a user votes only once
+# Authors
+Clive [@silentscribe](https://github.com/silentscribe)
+Peter [@pnolan89](https://github.com/pnolan89)
+Sumedha [@sumedhan](https://github.com/sumedhan)
