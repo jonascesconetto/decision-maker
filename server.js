@@ -61,7 +61,7 @@ app.post('/polls', (req, res) => {
 app.get('/polls/:url', (req, res) => {
   // Pull data from DB specific to poll as per the params in the get request and render the page.
   let templateVars = {};
-  // added to check if poll is active or not below - 
+  // added to check if poll is active or not below -
   helper.verifiedActive(req.params.url)
   .then((result) => {
     if(result === false) {
@@ -83,7 +83,7 @@ app.get('/polls/:url', (req, res) => {
             .then(() => res.render('vote', templateVars));
         }
       });
-    } 
+    }
   })
 });
 
@@ -141,7 +141,7 @@ app.get('/polls/admin/:url', (req, res) => {
         res.render('not-found');
       } else {
         knex
-          .select('candidate', 'points', 'description', 'title', 'question', 'polls_id')
+          .select('candidate', 'points', 'description', 'title', 'question', 'polls_id', 'is_active')
           .from('candidates')
           .leftJoin('polls', 'polls.id', 'candidates.polls_id')
           .where('admin_url', req.params.url)

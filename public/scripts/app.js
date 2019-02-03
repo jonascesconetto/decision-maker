@@ -76,4 +76,25 @@ $(() => {
       optionCount += 1;
     });
   }
+
+  if (document.getElementById('closePollBtn')) {
+    let $closePollBtn = $('#closePollBtn');
+    if ($closePollBtn.attr('active') === 'false') {
+      $closePollBtn.html('Re-Open Poll');
+    } else {
+      $closePollBtn.html('Close Poll');
+    }
+    $closePollBtn.on('click', function () {
+      console.log('Clicked!');
+    });
+  }
 });
+
+
+
+
+
+
+
+
+
