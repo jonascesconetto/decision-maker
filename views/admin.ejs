@@ -20,20 +20,20 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-8 col-lg-offset-2">
+      <div class="col-lg-6 col-lg-offset-3">
       <h3><%= voters.length %> voters so far:</h3>
         <table class="table adminStats">
           <thead>
             <tr>
               <th scope="col">Name</th>
-              <th scope="col">Ranking order</th>
+              <th scope="col" class="voterRanking">Ranking order</th>
             </tr>
           </thead>
           <% for (let voter in voters) { %>
             <tr>
               <% let ranking = voters[voter]['ranking'] %>
               <td><strong><%= voters[voter]['username'] %></strong>: </td>
-              <td><%= ranking.split(',').join(', ')  %></td>
+              <td class="voterRanking"><%= ranking.split(',').join(', ')  %></td>
             </tr>
           <% } %>
         </table>

@@ -4,9 +4,15 @@ $(() => {
     $("#errorMsg").hide();
     let orderArray = [];
     $( "#sortable" ).sortable({
+      create: function(event, ui) {
+        orderArray = $(this).sortable('toArray');
+        console.log(orderArray);
+      }
+    });
+    $( "#sortable" ).sortable({
     update: function(event, ui) {
-      var order =   $(this).sortable('toArray');
-      orderArray = order;
+      orderArray =   $(this).sortable('toArray');
+      console.log(orderArray);
       }
     });
     $( "#sortable" ).disableSelection();
