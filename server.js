@@ -53,7 +53,6 @@ app.get('/', (req, res) => {
 app.post('/polls', (req, res) => {
   return poll(req.body)
     .then((result) => {
-      // console.log('vurl on post to Polls', result);
       res.redirect(`/polls/${result}`);
     });
 });
@@ -62,7 +61,7 @@ app.post('/polls', (req, res) => {
 app.get('/polls/:url', (req, res) => {
   // Pull data from DB specific to poll as per the params in the get request and render the page.
   let templateVars = {};
-  helper.verified(req.params.url)
+  helper.verifiedVote(req.params.url)
     .then((result) => {
       if (result === false) {
         res.render('not-found');
@@ -73,7 +72,6 @@ app.get('/polls/:url', (req, res) => {
           .leftJoin('polls', 'polls.id', 'candidates.polls_id')
           .where('polls_id', result[1])
           .then((results) => {
-            // console.log('vote page results', results);
             templateVars.candidates = results;
           })
           .then(() => res.render('vote', templateVars));
@@ -87,12 +85,10 @@ app.post('/polls/:url', (req, res) => {
   const href = req.body.url;
   const voteURL = href.slice(28);
   const voterName = req.body.name;
-  // console.log('Votername', voterName);
   knex('candidates')
     .leftJoin('polls', 'polls.id', 'candidates.polls_id')
     .where('vote_url', voteURL)
     .then((results) => {
-      // console.log('POST vote', results);
       writeVotes(vote, results[0].polls_id, voterName);
       return helper.borda(vote);
     })
@@ -107,7 +103,7 @@ app.post('/polls/:url', (req, res) => {
 // Vote page that displays results to date of the poll
 app.get('/polls/:url/result', (req, res) => {
   let templateVars = {};
-  helper.verified(req.params.url)
+  helper.verifiedVote(req.params.url)
     .then((result) => {
       if (result === false) {
         res.render('not-found');
@@ -120,11 +116,9 @@ app.get('/polls/:url/result', (req, res) => {
           .orderBy('points', 'desc')
           .then((results) => {
             templateVars.candidates = results;
-            console.log('results: ', results);
           })
           .then(() => {
             res.render('results', templateVars);
-            // console.log('templateVars: ', templateVars);
           });
       }
     });
@@ -133,7 +127,7 @@ app.get('/polls/:url/result', (req, res) => {
 // Renders the admin page based on the admin link being clicked.
 app.get('/polls/admin/:url', (req, res) => {
   let templateVars = {};
-  helper.verified(req.params.url)
+  helper.verifiedAdmin(req.params.url)
     .then((result) => {
       if (result === false) {
         res.render('not-found');
@@ -146,10 +140,8 @@ app.get('/polls/admin/:url', (req, res) => {
           .orderBy('points', 'desc')
           .then((results) => {
             templateVars.candidates = results;
-            console.log('templateVars: ', templateVars);
             return admin(results[0].polls_id)
               .then((result) => {
-                console.log('result', result);
                 templateVars.voters = result;
               });
           })
@@ -159,40 +151,9 @@ app.get('/polls/admin/:url', (req, res) => {
 });
 
 app.get('/error', (req, res) => {
- res.render('not-found');
+  res.render('not-found');
 });
 
 app.listen(PORT, () => {
   console.log('Example app listening on port ' + PORT);
 });
-
-
-// function borda (ranks) {
-
-//   return Promise.all(ranks.map((rank, index) => {
-//     console.log('rank', rank);
-//     let points = ranks.length - index;
-//     return knex('candidates')
-//       .where('id', rank)
-//       .increment('points', points)
-//       .then(() => console.log('done'));
-//   }));
-// }
-
-// function verified (url) {
-//   return knex('polls')
-//     .where('vote_url', url)
-//     .orWhere('admin_url', url)
-//     .then((results) => {
-//       if (results.length === 0) {
-//         console.log('not found');
-//         return false;
-//       } else if (results[0]['vote_url'] === url) {
-//         console.log('vote');
-//         return [results[0]['vote_url'], results[0]['id']];
-//       } else {
-//         console.log('admin');
-//         return [results[0]['admin_url'], results[0]['id']];
-//       }
-//     });
-// }

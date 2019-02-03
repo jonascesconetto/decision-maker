@@ -7,7 +7,6 @@ $(() => {
     update: function(event, ui) {
       var order =   $(this).sortable('toArray');
       orderArray = order;
-      console.log(orderArray);
       }
     });
     $( "#sortable" ).disableSelection();
@@ -16,10 +15,9 @@ $(() => {
       $("#errorMsg").slideUp();
     });
 
-    $( "#voteSubmit").on("click", function(event) {
+    $( "#voteSubmit").on("click", function (event) {
       event.preventDefault();
       let voterName = $("#nameField").val();
-      console.log(voterName);
       if(voterName === "") {
         $("#errorMsg").slideDown();
       } else {
@@ -28,12 +26,12 @@ $(() => {
           url: '/polls/:url/',
           data: JSON.stringify({ oa: orderArray, url: window.location.href, name: voterName }),
           contentType: 'application/json',
-          success:function(result){
-            console.log("we are working");
+          success:function (result) {
+            console.log("Vote Data Submitted Successfully");
             window.location = result.result;
           },
-          error:function(err){
-            console.log("something happened", err);
+          error:function (err) {
+            console.log("Error Occurred", err);
           }
         });
       }
