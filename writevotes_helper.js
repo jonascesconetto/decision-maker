@@ -22,9 +22,7 @@ function singleVoteToDB(candidates_id, rating, polls_id, voterName) {
 
 // export function that writes all votes to the database
 module.exports = function writeVotestoDB (vote, polls_id, voterName) {
-  // console.log('vote', vote);
   vote.forEach((element, index) => {
-    console.log('Candidate id being writted: ', element);
     const rating = vote.length - index;
     singleVoteToDB(element, rating, polls_id, voterName);
   });
