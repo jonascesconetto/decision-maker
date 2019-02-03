@@ -83,7 +83,7 @@ app.get('/polls/:url', (req, res) => {
 app.post('/polls/:url', (req, res) => {
   const vote = req.body.oa;
   const href = req.body.url;
-  const voteURL = href.slice(28);
+  const voteURL = helper.clearSlash(href.slice(28));
   const voterName = req.body.name;
   knex('candidates')
     .leftJoin('polls', 'polls.id', 'candidates.polls_id')

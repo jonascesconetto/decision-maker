@@ -25,7 +25,6 @@ function verifiedVote (url) {
         console.log('URL not found');
         return false;
       }
-      console.log('verifiedVote');
       return [results[0]['vote_url'], results[0]['id']];
     });
 }
@@ -39,13 +38,26 @@ function verifiedAdmin (url) {
         console.log('URL not found');
         return false;
       }
-      console.log('verifiedAdmin');
       return [results[0]['admin_url'], results[0]['id']];
     });
+}
+
+// Checks the url data sent from ajax upon vote submission to ensure no '/'
+function clearSlash (text) {
+  let newMessage = [];
+  for (var i = 0; i < text.length; i++) {
+    if (text[i] === '/') {
+      newMessage.push('');
+    } else {
+      newMessage.push(text[i]);
+    }
+  }
+  return newMessage.join('');
 }
 
 module.exports = {
   verifiedVote,
   verifiedAdmin,
-  borda
+  borda,
+  clearSlash
 };
