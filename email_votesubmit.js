@@ -33,9 +33,6 @@ module.exports = function voteSubmitEmail(voteURL, voterName) {
         Share the link below to get more responses.
         Voting Link: http://localhost:8080/polls/${voteURL} 
     
-        To view results you can view the admin link:
-        
-        Keep this email safe. You will be unable to access the poll without the links. 
         Happy Polling!`,
       };
     
