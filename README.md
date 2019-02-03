@@ -10,14 +10,14 @@ As a social person I want my group of friends to make a democratic choice on a g
 ### User Stories & Scenarios
 
 * Admin
- - Given that I have several activities
- - when I create a new poll and click enter my email and description and click submit
- - then two links are generated and emailed to me (admin and vote). I then am redirected to the vote page so that I can cast my vote.
+  - Given that I have several activities
+  - when I create a new poll and click enter my email and description and click submit
+  - then two links are generated and emailed to me (admin and vote). I then am redirected to the vote page so that I can cast my vote.
 
 * Voter
- - Given that the vote link is clicked in the email the voting page opens in the browser
- - when I enter my name, rank the choices and click submit
- - then the vote is calculated and the results page loads.
+  - Given that the vote link is clicked in the email the voting page opens in the browser
+  - when I enter my name, rank the choices and click submit
+  - then the vote is calculated and the results page loads.
 
 ### Scenarios
 
@@ -72,6 +72,6 @@ As a social person I want my group of friends to make a democratic choice on a g
 - pg
 
 # Authors
-Clive [@silentscribe](https://github.com/silentscribe)
-Peter [@pnolan89](https://github.com/pnolan89)
-Sumedha [@sumedhan](https://github.com/sumedhan)
+- Clive [@silentscribe](https://github.com/silentscribe)
+- Peter [@pnolan89](https://github.com/pnolan89)
+- Sumedha [@sumedhan](https://github.com/sumedhan)
