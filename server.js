@@ -9,6 +9,7 @@ const bodyParser  = require('body-parser');
 const sass        = require('node-sass-middleware');
 const app         = express();
 
+const request     = require('request');
 const knexConfig  = require('./knexfile');
 const knex        = require('knex')(knexConfig[ENV]);
 const morgan      = require('morgan');
@@ -51,6 +52,9 @@ app.get('/', (req, res) => {
 
 // Writes poll data to polls db when a user creates a poll
 app.post('/polls', (req, res) => {
+  // Script below for recaptcha v2 
+  console.log('captcha:', captchaVerify(req.body['g-recaptcha-response']));
+  // Script ends for recaptcha v2
   return poll(req.body)
     .then((result) => {
       res.redirect(`/polls/${result}`);
@@ -157,3 +161,22 @@ app.get('/error', (req, res) => {
 app.listen(PORT, () => {
   console.log('Example app listening on port ' + PORT);
 });
+
+//  Helper function for recaptcha verify
+// eslint-disable-next-line consistent-return
+function captchaVerify(userCaptchaResponse) {
+  if (!userCaptchaResponse) {
+    return 'Please select captcha';
+  } 
+  const secretKey = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe';
+  const verificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}response=${userCaptchaResponse}`;
+  request(verificationUrl,function(error,response,body) {
+    body = JSON.parse(body);
+    console.log('captch', body);
+    // Success will be true or false depending upon captcha validation.
+    if(!body.success) {
+      return "Failed captcha verification";
+    }
+    return 'success!'
+  });
+}

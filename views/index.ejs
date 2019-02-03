@@ -3,6 +3,8 @@
   <head>
     <% include ./partials/_head %>
     <title>Home Page</title>
+    <!-- Captcha v2 script-->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   </head>
 
   <body id="index">
@@ -55,6 +57,9 @@
             <label for="adminEmail">Email: </label>
             <input type="email" class="form-control" name="adminEmail" placeholder="abc@mail.com" required>
           </div>
+          <!--Adding captcha v2-->
+          <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
+          <!-- end of captch v2 widget-->
           <button id="poll-submit" type="submit" class="btn btn-primary">Submit</button>
         </form>
       </div><!-- /.col-lg-6 -->
