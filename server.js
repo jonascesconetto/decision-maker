@@ -18,6 +18,7 @@ const poll        = require('./createpolls_helper');
 const admin       = require('./adminquery_helper');
 const writeVotes  = require('./writevotes_helper');
 const helper      = require('./helpers');
+const voteEmail   = require('./email_votesubmit.js');
 
 // Seperated Routes for each Resource
 const usersRoutes = require('./routes/users');
@@ -93,6 +94,7 @@ app.post('/polls/:url', (req, res) => {
       return helper.borda(vote);
     })
     .then(() => {
+      voteEmail(voteURL, voterName);
       res.send({ result: `http://localhost:8080/polls/${voteURL}/result` });
     })
     .catch((error)=> {
