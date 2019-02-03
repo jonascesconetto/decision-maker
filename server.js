@@ -67,7 +67,7 @@ app.get('/polls/:url', (req, res) => {
         res.render('not-found');
       } else {
         knex
-          .select('candidates.id as candidate_id', 'question', 'candidate', 'title', 'points', 'vote_url')
+          .select('candidates.id as candidate_id', 'question', 'candidate', 'title', 'points', 'vote_url', 'description')
           .from('candidates')
           .leftJoin('polls', 'polls.id', 'candidates.polls_id')
           .where('polls_id', result[1])
