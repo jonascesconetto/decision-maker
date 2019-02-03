@@ -15,7 +15,22 @@ function borda (ranks) {
       .then(() => console.log('Borda done'));
   }));
 }
-
+//  verifies if poll is active
+function verifiedActive (url) {
+  return knex('polls')
+    .where({
+      'vote_url': url,
+      'is_active': true
+    })
+    .then((results) => {
+      if (results.length === 0) {
+        console.log('Poll inactive');
+        return false;
+      }
+      console.log('verifiedVote');
+      return [results[0]['vote_url'], results[0]['id']];
+    });
+}
 // Verifies if vote url is in the database
 function verifiedVote (url) {
   return knex('polls')
@@ -45,6 +60,7 @@ function verifiedAdmin (url) {
 }
 
 module.exports = {
+  verifiedActive,
   verifiedVote,
   verifiedAdmin,
   borda
