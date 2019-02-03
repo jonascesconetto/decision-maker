@@ -79,13 +79,38 @@ $(() => {
 
   if (document.getElementById('closePollBtn')) {
     let $closePollBtn = $('#closePollBtn');
+    let newStatus = "";
+    let oldStatus = "";
+    let btnText = {
+      t: 'Close Poll',
+      f: 'Re-Open Poll'
+    };
     if ($closePollBtn.attr('active') === 'false') {
       $closePollBtn.html('Re-Open Poll');
+      newStatus = "t";
+      oldStatus = "f";
     } else {
       $closePollBtn.html('Close Poll');
+      newStatus = "f";
+      oldStatus = "t";
     }
     $closePollBtn.on('click', function () {
-      console.log('Clicked!');
+      $.ajax({
+          method: 'POST',
+          url: '/polls/admin/:url/',
+          data: JSON.stringify({ active_status: newStatus, admin_url: (window.location.href).slice(34) }),
+          contentType: 'application/json',
+          success:function (result) {
+            $closePollBtn.attr('active', newStatus);
+            $closePollBtn.html(btnText[newStatus]);
+            let statusSwitch = oldStatus;
+            oldStatus = newStatus;
+            newStatus = statusSwitch;
+          },
+          error:function (err) {
+            console.log("Error Occurred", err);
+          }
+        });
     });
   }
 });

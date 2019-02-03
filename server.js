@@ -158,6 +158,22 @@ app.get('/polls/admin/:url', (req, res) => {
     });
 });
 
+app.post('/polls/admin/:url', (req, res) => {
+  let activeStatus = req.body.active_status;
+  let adminURL = req.body.admin_url;
+  console.log('New active status: ', activeStatus);
+  console.log('Admin URL: ', adminURL);
+  // res.status(200);
+  // res.send('Received!');
+  knex('polls')
+    .where('admin_url', adminURL)
+    .update('is_active', activeStatus)
+    .then((results) => {
+      res.status(200);
+      res.send('Received by DB!');
+    });
+});
+
 app.get('/error', (req, res) => {
   res.render('not-found');
 });
