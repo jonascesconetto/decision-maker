@@ -86,7 +86,7 @@ app.get('/polls/:url', (req, res) => {
         }
       });
     }
-  })
+  });
 });
 
 // Calculates the points for each candidate & updates DB.
