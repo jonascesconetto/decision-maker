@@ -62,15 +62,16 @@ app.get('/polls/:url', (req, res) => {
   // Pull data from DB specific to poll as per the params in the get request and render the page.
   let templateVars = {};
   // added to check if poll is active or not below -
-  helper.verifiedActive(req.params.url)
+  helper.verifiedVote(req.params.url)
   .then((result) => {
     if(result === false) {
-      res.send('Inactive poll');
+      res.render('not-found');
     } else {
-      helper.verifiedVote(req.params.url)
+      helper.verifiedActive(req.params.url)
       .then((result) => {
         if (result === false) {
-          res.render('not-found');
+          templateVars.resultURL = `/polls/${req.params.url}/result`;
+          res.render('inactive-poll', templateVars);
         } else {
           knex
             .select('candidates.id as candidate_id', 'question', 'candidate', 'title', 'points', 'vote_url', 'description')
