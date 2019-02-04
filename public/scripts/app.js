@@ -1,5 +1,5 @@
-// USE FOR ON PAGE EVENTS ONLY
 $(() => {
+  // Vote Page
   if (document.getElementById('sortable')) {
     $("#errorMsg").hide();
     let orderArray = [];
@@ -44,6 +44,7 @@ $(() => {
     });
   }
 
+  // Index / Poll Creation Page
   if (document.getElementById('addOptionBtn')) {
     let optionCount = 3;
     $( "#addOptionBtn").on('click', function (event) {
@@ -77,6 +78,7 @@ $(() => {
     });
   }
 
+  // Admin page
   if (document.getElementById('closePollBtn')) {
     $('.successMsg').hide();
     let $closePollBtn = $('#closePollBtn');
