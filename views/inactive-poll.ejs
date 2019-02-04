@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <% include ./partials/_head %>
-    <title>Admin Page</title>
+<head>
+  <% include ./partials/_head %>
+  <title>Admin Page</title>
+</head>
 
-  </head>
-
-  <body id="index">
+<body>
   <% include ./partials/_header %>
-  <div class="container-fluid">
+  <div id="index" class="container-fluid">
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2" id="notFoundMessage">
         <h1>Polling Closed!</h1>
-        <p>Sorry, you may no longer vote on this poll.</p>
+        <p>Sorry, the admin has closed this poll and it is no longer accepting votes.</p>
         <p>Click <a href="<%=resultURL%>">here</a> view the results.</p>
         <p>Or, Click <a href="/">here</a> to create a new poll.</p>
       </div>
@@ -20,5 +19,5 @@
 
   </div><!-- /.container -->
   <% include ./partials/_body-scripts %>
-  </body>
+</body>
 </html>
