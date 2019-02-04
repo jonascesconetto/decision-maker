@@ -36,13 +36,18 @@ As a social person I want my group of friends to make a democratic choice on a g
 
 ### Screenshots
 
+#### Create a poll
 ![Landing_Page](./Screenshots/Landing_Page.png)
 
+#### Vote on a poll
 ![Voting_page](./Screenshots/vote_page.png)
 
-![Results](./Screenshots/result.png)
+#### Results
+![Results](./Screenshots/Result.png)
 
+#### Admin features on result page
 ![Admin](./Screenshots/admin_view.png)
+
 ## Project Stack
 
 - Client: HTML, JS, Jquery, Ajax and ejs for rendering pages
