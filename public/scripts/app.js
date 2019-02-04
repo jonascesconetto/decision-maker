@@ -78,7 +78,7 @@ $(() => {
   }
 
   if (document.getElementById('closePollBtn')) {
-    $('#successMsg').hide();
+    $('.successMsg').hide();
     let $closePollBtn = $('#closePollBtn');
     let newStatus = "";
     let oldStatus = "";
@@ -86,6 +86,11 @@ $(() => {
       t: 'Close Poll',
       f: 'Re-Open Poll'
     };
+    let msgText = {
+      t: '#pollOpenedMsg',
+      f: '#pollClosedMsg'
+    };
+
     if ($closePollBtn.attr('active') === 'false') {
       $closePollBtn.html('Re-Open Poll');
       newStatus = "t";
@@ -95,6 +100,7 @@ $(() => {
       newStatus = "f";
       oldStatus = "t";
     }
+
     $closePollBtn.on('click', function () {
       $.ajax({
           method: 'POST',
@@ -102,10 +108,11 @@ $(() => {
           data: JSON.stringify({ active_status: newStatus, admin_url: (window.location.href).slice(34) }),
           contentType: 'application/json',
           success:function (result) {
+            let $successMsg = $(msgText[newStatus]);
             $closePollBtn.attr('active', newStatus);
             $closePollBtn.html(btnText[newStatus]);
-            $('#successMsg').fadeIn();
-            setTimeout(function() {$('#successMsg').fadeOut();},2500);
+            $successMsg.fadeIn();
+            setTimeout(function() {$successMsg.fadeOut();},2500);
             let statusSwitch = oldStatus;
             oldStatus = newStatus;
             newStatus = statusSwitch;
