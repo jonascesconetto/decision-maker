@@ -64,29 +64,29 @@ app.get('/polls/:url', (req, res) => {
   let templateVars = {};
   // added to check if poll is active or not below -
   helper.verifiedVote(req.params.url)
-  .then((result) => {
-    if(result === false) {
-      res.render('not-found');
-    } else {
-      helper.verifiedActive(req.params.url)
-      .then((result) => {
-        if (result === false) {
-          templateVars.resultURL = `/polls/${req.params.url}/result`;
-          res.render('inactive-poll', templateVars);
-        } else {
-          knex
-            .select('candidates.id as candidate_id', 'question', 'candidate', 'title', 'points', 'vote_url', 'description')
-            .from('candidates')
-            .leftJoin('polls', 'polls.id', 'candidates.polls_id')
-            .where('polls_id', result[1])
-            .then((results) => {
-              templateVars.candidates = results;
-            })
-            .then(() => res.render('vote', templateVars));
-        }
-      });
-    }
-  });
+    .then((result) => {
+      if(result === false) {
+        res.render('not-found');
+      } else {
+        helper.verifiedActive(req.params.url)
+          .then((result) => {
+            if (result === false) {
+              templateVars.resultURL = `/polls/${req.params.url}/result`;
+              res.render('inactive-poll', templateVars);
+            } else {
+              knex
+                .select('candidates.id as candidate_id', 'question', 'candidate', 'title', 'points', 'vote_url', 'description')
+                .from('candidates')
+                .leftJoin('polls', 'polls.id', 'candidates.polls_id')
+                .where('polls_id', result[1])
+                .then((results) => {
+                  templateVars.candidates = results;
+                })
+                .then(() => res.render('vote', templateVars));
+            }
+          });
+      }
+    });
 });
 
 // Calculates the points for each candidate & updates DB.

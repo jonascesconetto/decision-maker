@@ -1,5 +1,3 @@
-
-
 const PORT        = process.env.PORT || 8080;
 const ENV         = process.env.ENV || 'development';
 const knexConfig  = require('./knexfile');
@@ -11,7 +9,7 @@ const domain = process.env.DOMAIN;
 const mailgun = require('mailgun-js')({ apiKey: api_key, domain: domain });
 // sends notification to admin when new response is received
 
-module.exports = function voteSubmitEmail(voteURL, voterName) {
+module.exports = function voteSubmitEmail (voteURL, voterName) {
   knex('polls')
     .select('admin_email', 'admin_url', 'title')
     .where('vote_url', voteURL)
@@ -23,24 +21,22 @@ module.exports = function voteSubmitEmail(voteURL, voterName) {
         from: `decisionmaker@${domain}`,
         to: adminEmail,
         subject: `${voterName} just voted on your poll`,
-        text: 
-        `Hi! 
+        text:
+        `Hi!
         ${voterName} has just voted on your poll: ${pollTitle}. Click below to see the updated results.
 
-        Admin Link: http://localhost:8080/polls/admin/${adminURL} 
-    
+        Admin Link: http://localhost:8080/polls/admin/${adminURL}
+
 
         Share the link below to get more responses.
-        Voting Link: http://localhost:8080/polls/${voteURL} 
-    
+        Voting Link: http://localhost:8080/polls/${voteURL}
+
         Happy Polling!`,
       };
-    
+
       mailgun.messages().send(data, (error, body) => {
         if (error) console.error(error);
-        console.log(body);
       });
-    })
-}
-
+    });
+};
 
