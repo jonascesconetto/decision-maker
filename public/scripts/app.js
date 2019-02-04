@@ -78,6 +78,7 @@ $(() => {
   }
 
   if (document.getElementById('closePollBtn')) {
+    $('#successMsg').hide();
     let $closePollBtn = $('#closePollBtn');
     let newStatus = "";
     let oldStatus = "";
@@ -103,6 +104,8 @@ $(() => {
           success:function (result) {
             $closePollBtn.attr('active', newStatus);
             $closePollBtn.html(btnText[newStatus]);
+            $('#successMsg').fadeIn();
+            setTimeout(function() {$('#successMsg').fadeOut();},2500);
             let statusSwitch = oldStatus;
             oldStatus = newStatus;
             newStatus = statusSwitch;

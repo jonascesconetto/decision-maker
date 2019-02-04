@@ -94,6 +94,10 @@ body {
   margin-top: 10px;
 }
 
+#closePollBtn {
+  float: left;
+}
+
 #errorMsg {
   color: #D8000C;
   background-color: #FFD2D2;
@@ -103,6 +107,15 @@ body {
   padding-left: 10px;
   margin-top: 5px;
   line-height: 1.6;
+}
+
+#successMsg {
+  color: #4F8A10;
+  background-color: #DFF2BF;
+  float: left;
+  margin-left: 20px;
+  padding: 7px;
+  border-radius: 5px;
 }
 
 .adminStats {
