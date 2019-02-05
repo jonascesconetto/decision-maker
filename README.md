@@ -36,6 +36,18 @@ As a social person I want my group of friends to make a democratic choice on a g
 
 ### Screenshots
 
+#### Create a poll
+![Landing_Page](./Screenshots/Landing_Page.png)
+
+#### Vote on a poll
+![Voting_page](./Screenshots/vote_page.png)
+
+#### Results
+![Results](./Screenshots/Result.png)
+
+#### Admin features on result page
+![Admin](./Screenshots/admin_view.png)
+
 ## Project Stack
 
 - Client: HTML, JS, Jquery, Ajax and ejs for rendering pages
@@ -47,7 +59,7 @@ As a social person I want my group of friends to make a democratic choice on a g
 ## Getting Started
 
 1. Create the `.env` by using `.env.example` as a reference: `cp .env.example .env`
-2. Update the .env file with your correct local information - you will need to sign up for mailgun api to send email notifications
+2. Update the .env file with your correct local information - you will need to sign up for mailgun api to send email notifications. Please note that the domain in the .env.example refers to the mailgun domain.
 3. Install dependencies: `npm i`
 4. Fix to binaries for sass: `npm rebuild node-sass`
 5. Run migrations: `npm run knex migrate:latest`
@@ -62,14 +74,24 @@ As a social person I want my group of friends to make a democratic choice on a g
 - Node 
 - NPM 
 - Body Parser 
+- Chance
 - Chart.js 
 - dotenv
 - EJS
 - Express
 - Jquery UI
 - Knex
+- Knex-logger
 - Mailgun-js
+- Morgan
+- Node-sass-middleware
 - pg
+
+## Future features
+
+- Linking to calender invites for specific event dates
+- Deleting polls so that they are no longer visible on the site
+- Sending email notifications on opening and closing of polls to voters and admin
 
 # Authors
 - Clive [@silentscribe](https://github.com/silentscribe)
