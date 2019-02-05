@@ -74,13 +74,17 @@ As a social person I want my group of friends to make a democratic choice on a g
 - Node 
 - NPM 
 - Body Parser 
+- Chance
 - Chart.js 
 - dotenv
 - EJS
 - Express
 - Jquery UI
 - Knex
+- Knex-logger
 - Mailgun-js
+- Morgan
+- Node-sass-middleware
 - pg
 
 ## Future features
