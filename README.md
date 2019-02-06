@@ -50,11 +50,10 @@ As a social person I want my group of friends to make a democratic choice on a g
 
 ## Project Stack
 
-- Client: HTML, JS, Jquery, Ajax and ejs for rendering pages
-- Server: Node.js
-- PostgreSQL for DB
-- Knex.js for querying and migrations
-- git for version control
+- Front-End: HTML, JS, Jquery, Ajax and EJS
+- Back-End: Express, Node.js, PostgreSQL and Knex
+- Git for version control
+- For API's see dependencies
 
 ## Getting Started
 
